@@ -1,8 +1,11 @@
-import express from "express";
-import cors from "cors";
-import mongoose from "mongoose";
-import crypto from "crypto";
-import bycrypt from "bcrypt";
+const express = require('express')
+const session = require('express-session');
+const cors = require('cors')
+const mongoose = require('mongoose')
+const bycrypt = require('bcrypt')
+const passport = require('passport');
+const User = require("./models/user-model")
+require('./auth-setup')
 
 const mongoUrl = process.env.MONGO_URL || "mongodb://localhost/habit-tracker";
 mongoose.connect(mongoUrl, {
@@ -15,46 +18,45 @@ mongoose.Promise = Promise;
 const port = process.env.PORT || 8080;
 const app = express();
 
-/***** SET SCHEMA   ******/
-//Email validator
-const validateEmail = (email) => {
-  const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-  return emailRegex.test(email);
-};
-// Create new users model
-const User = mongoose.model("Users", {
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true,
-    validate: [validateEmail, "Please fill a valid email address"],
-    match: [
-      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-      "Please fill a valid email address",
-    ],
-  },
-  username: {
-    type: String,
-    unique: true,
-    required: true,
-    trim: true,
-  },
-  password: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  accessToken: {
-    type: String,
-    default: () => crypto.randomBytes(128).toString("hex"),
-  },
-});
-/*****  END SET SCHEMA   ******/
+const isLoggedIn = (req, res, next) => {
+  req.user ? next() : res.sendStatus(401);
+}; 
 
 // Add middlewares to enable cors and json body parsing
 app.use(cors());
 app.use(express.json());
+app.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+/****  GOOGLE AUTH FEATURE*****/
+app.get('/', (req, res) => {
+  res.send('<a href="/auth/google">Authenticate with Google</a>');
+})
+
+ app.get('/auth/google',
+  passport.authenticate('google', { scope: [ 'email', 'profile' ] }
+)); 
+
+app.get( '/auth/google/callback',
+  passport.authenticate( 'google', {
+    successRedirect: '/protected',
+    failureRedirect: '/auth/google/failure'
+  })
+); 
+app.get('/protected', isLoggedIn, (req, res) => {
+  res.send(`Hello ${req.user.displayName}`);
+});
+
+app.get('/logout', (req, res) => {
+  req.logout();
+  req.session.destroy();
+  res.send('Goodbye!');
+});
+
+app.get('/auth/google/failure', (req, res) => {
+  res.send('Failed to authenticate..');
+});
 
 //create user manually
 app.post("/signup", async (req, res) => {
@@ -78,9 +80,10 @@ app.post("/signup", async (req, res) => {
     res.status(400).json(error);
   }
 });
+/****   END GOOGLE AUTH FEATURE*****/
 
 // Start the server
 app.listen(port, () => {
   // eslint-disable-next-line
   console.log(`Server running on http://localhost:${port}`);
-})
+});
