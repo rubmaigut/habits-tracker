@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 const crypto = require('crypto')
-const bycrypt = require('bcrypt')
 
 /***** SET SCHEMA   ******/
 
