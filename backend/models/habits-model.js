@@ -6,6 +6,9 @@ const Habit = mongoose.model('habit',{
         ref: 'Category'
     },
     name: String,
+    count: {
+        type: Number,
+    },
     goal : {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Goal'
@@ -19,7 +22,10 @@ const Habit = mongoose.model('habit',{
         ref: 'TimeRange'
     },
     message: String,
-    icon: String,
+    icon:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Icon'
+    },
     isSelected: {
         type: Boolean,
         default: false
