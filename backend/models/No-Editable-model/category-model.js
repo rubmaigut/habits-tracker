@@ -6,9 +6,7 @@ const Category = mongoose.model('category',{
     description: String
 })
 
-const RESET_DB = true
-
-if (RESET_DB) {
+if (process.env.RESET_DB) {
 	const seedCategoryDatabase = async () => {
     await Category.deleteMany({})
 

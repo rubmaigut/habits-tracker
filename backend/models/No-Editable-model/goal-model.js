@@ -6,9 +6,7 @@ const Goal = mongoose.model('Goal',{
     symbol: String
 })
 
-const RESET_DB = true
-
-if (RESET_DB) {
+if (process.env.RESET_DB) {
 	const seedGoalDatabase = async () => {
     await Goal.deleteMany({})
 

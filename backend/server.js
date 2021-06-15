@@ -9,15 +9,16 @@ const User = require("./models/user-model");
 const Habit = require("./models/habits-model");
 const HabitDone = require("./models/tracker-model");
 
-//const Category = require("./models/No-Editable-model/category-model");
-//const Goal = require("./models/No-Editable-model/goal-model");
-//const Frequency = require("./models/No-Editable-model/frequency-model");
-//const TimeRange = require("./models/No-Editable-model/timeRange-model");
+require("./models/No-Editable-model/category-model");
+require("./models/No-Editable-model/goal-model");
+require("./models/No-Editable-model/frequency-model");
+require("./models/No-Editable-model/timeRange-model");
+
 const Icon = require("./models/No-Editable-model/icons-mode");
 
 require("./auth-setup");
 
-const mongoUrl = process.env.MONGO_URL || "mongodb+srv://myUser:Ncn4THxFL8RP97b@cluster0.mxq7d.mongodb.net/myFirstDatabase?";
+const mongoUrl = process.env.MONGO_URL || "mongodb://localhost/habit-tracker";
 mongoose.connect(mongoUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
