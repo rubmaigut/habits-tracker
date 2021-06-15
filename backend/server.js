@@ -17,7 +17,7 @@ const Icon = require("./models/No-Editable-model/icons-mode");
 
 require("./auth-setup");
 
-const mongoUrl = process.env.MONGO_URL || "mongodb://localhost/habit-tracker";
+const mongoUrl = process.env.MONGO_URL || "mongodb+srv://myUser:Ncn4THxFL8RP97b@cluster0.mxq7d.mongodb.net/myFirstDatabase?";
 mongoose.connect(mongoUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
