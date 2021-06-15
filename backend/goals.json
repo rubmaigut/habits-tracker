@@ -1,0 +1,37 @@
+[{
+  "unitName": "count",
+  "symbol": "count"
+},{
+  "unitName": "steps",
+  "symbol": "steps"
+},{
+  "unitName": "meters",
+  "symbol": "mtrs"
+},{
+  "unitName": "kilometers",
+  "symbol": "km"
+},{
+  "unitName": "mile",
+  "symbol": "mile"
+},{
+  "unitName": "seconds",
+  "symbol": "sec"
+},{
+  "unitName": "minutes",
+  "symbol": "min"
+},{
+  "unitName": "hours",
+  "symbol": "hr"
+},{
+  "unitName": "liters",
+  "symbol": "lt"
+},{
+  "unitName": "onzas",
+  "symbol": "oz"
+},{
+  "unitName": "calories",
+  "symbol": "cal"
+},{
+  "unitName": "pieces",
+  "symbol": "pc"
+}]

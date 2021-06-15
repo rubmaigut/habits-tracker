@@ -1,0 +1,16 @@
+[{
+  "categoryName": "Physical",
+  "description": " It contains all the habits to improve your body, including nutritional habits."
+},
+{
+  "categoryName": "Mental",
+  "description": "It contains all the habits to keep your mind healthy and strong."
+},
+{
+  "categoryName": "Emotional",
+  "description": "It contains all the habits to promote your hobbies and relationships with others."
+},
+{
+  "categoryName": "Others",
+  "description": "It contains customs habits"
+}]

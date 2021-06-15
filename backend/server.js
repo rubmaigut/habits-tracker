@@ -1,4 +1,3 @@
-require("./auth-setup");
 const express = require("express");
 const session = require("express-session");
 const cors = require("cors");
@@ -8,12 +7,15 @@ const mongoose = require("mongoose");
 
 const User = require("./models/user-model");
 const Habit = require("./models/habits-model");
+const HabitDone = require("./models/tracker-model");
 
-const Category = require("./models/No-Editable-model/category-model");
-const Goal = require("./models/No-Editable-model/goal-model");
-const Frequency = require("./models/No-Editable-model/frequency-model");
-const TimeRange = require("./models/No-Editable-model/timeRange-model");
+//const Category = require("./models/No-Editable-model/category-model");
+//const Goal = require("./models/No-Editable-model/goal-model");
+//const Frequency = require("./models/No-Editable-model/frequency-model");
+//const TimeRange = require("./models/No-Editable-model/timeRange-model");
 const Icon = require("./models/No-Editable-model/icons-mode");
+
+require("./auth-setup");
 
 const mongoUrl = process.env.MONGO_URL || "mongodb://localhost/habit-tracker";
 mongoose.connect(mongoUrl, {
@@ -39,6 +41,7 @@ app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use("/icon-directory", express.static(publicDir));
+
 
 /**** USER MODEL *****/
 //google auth feature
@@ -95,71 +98,9 @@ app.post("/signup", async (req, res) => {
 });
 /**** USER MODEL - END *****/
 
-/**** NO EDITABLE MODEL  ****/
-// CATEGORY
-app.post("/setup/category", async (req, res) => {
-  const { categoryName, description } = req.body;
-  try {
-    const category = await new Category({
-      categoryName,
-      description,
-    }).save();
-    res.json(category);
-  } catch (error) {
-    res.status(200).json(error);
-  }
-});
-
-// GOALS
-app.post("/setup/goal", async (req, res) => {
-  const { unitName } = req.body;
-  try {
-    const goal = await new Goal({ unitName }).save();
-    res.json(goal);
-  } catch (error) {
-    res.status(200).json(error);
-  }
-});
-// FREQUENCY
-app.post("/setup/frequency", async (req, res) => {
-  const { frequencyName } = req.body;
-  try {
-    const frequency = await new Frequency({ frequencyName }).save();
-    res.json(frequency);
-  } catch (error) {
-    res.status(200).json(error);
-  }
-});
-
-// TIME RANGE
-app.post("/setup/timeRange", async (req, res) => {
-  const { timeRangeName } = req.body;
-  try {
-    const timeRange = await new TimeRange({ timeRangeName }).save();
-    res.json(timeRange);
-  } catch (error) {
-    res.status(400).json(error);
-  }
-});
-
-//ICONS
-app.post("/setup/icons", async (req, res) => {
-  const { imageName, url } = req.body;
-  try {
-    const icons = await new Icon({
-      imageName,
-      url,
-    }).save();
-    res.json(icons);
-  } catch (error) {
-    res.status(400).json(error);
-  }
-});
-/**** NO EDITABLE MODEL - END ****/
-
 /**** HABIT MODEL  ****/
 app.post("/habits", async (req, res) => {
-  const { name, message, count } = req.body;
+  const { name, message, count, startedDate, endingDate } = req.body;
 
   try {
     const selectCategory = await Category.findOne({
@@ -174,7 +115,6 @@ app.post("/habits", async (req, res) => {
       timeRangeName: req.body.timeRange,
     });
     const selectIcon = await Icon.findOne({ imageName: req.body.icon });
-
     if (
       selectCategory.categoryName &&
       selectGoal.unitName &&
@@ -182,14 +122,16 @@ app.post("/habits", async (req, res) => {
       selectTimeRange.timeRangeName
     ) {
       await new Habit({
-        category: selectCategory._id,
+        category: selectCategory,
         name,
         count,
-        goal: selectGoal._id,
-        frequency: selectFrequency._id,
-        timeRange: selectTimeRange._id,
-        icon: selectIcon._id,
+        goal: selectGoal.unitName,
+        frequency: selectFrequency.frequencyName,
+        timeRange: selectTimeRange.timeRangeName,
+        icon: selectIcon,
         message,
+        startedDate,
+        endingDate,
       }).save((error) => {
         Habit.findOne({})
           .sort({ _id: -1 })
@@ -207,7 +149,8 @@ app.post("/habits", async (req, res) => {
 
 app.put("/habits/update/:id", async (req, res) => {
   const { id } = req.params;
-  const { name, message, count } = req.body;
+  const { name, message, count, startedDate, endingDate, isSelected } =
+    req.body;
   const options = { returnNewDocument: true, returnOriginal: false };
 
   try {
@@ -225,14 +168,17 @@ app.put("/habits/update/:id", async (req, res) => {
 
     const update = {
       $set: {
-        category: selectCategory._id,
+        category: selectCategory,
         name,
         count,
-        goal: selectGoal._id,
-        frequency: selectFrequency._id,
-        timeRange: selectTimeRange._id,
-        icon: selectIcon._id,
+        goal: selectGoal.unitName,
+        frequency: selectFrequency.frequencyName,
+        timeRange: selectTimeRange.timeRangeName,
+        icon: selectIcon,
         message,
+        startedDate,
+        endingDate,
+        isSelected,
       },
     };
 
@@ -250,6 +196,27 @@ app.put("/habits/update/:id", async (req, res) => {
     res.status(400).json(error);
   }
 });
+
+app.post("/habit/done/:id", async (req, res) => {
+  const { id } = req.params;
+  const { isDone, userDate, notes } = req.body;
+
+  const habitSelected = await Habit.findOne({ _id: id });
+
+  console.log("validation", habitSelected.isSelected);
+  if (habitSelected.isSelected === true) {
+    await new HabitDone({
+      habitId: habitSelected._id,
+      habitName: habitSelected.name,
+      isDone,
+      userDate,
+      notes,
+    })
+      .save()
+      .populate("habits");
+  }
+});
+
 /**** HABIT MODEL - END ****/
 
 // Start the server
