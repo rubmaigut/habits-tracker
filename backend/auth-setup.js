@@ -8,7 +8,8 @@ const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || "8TDpHZStQiQDKV
 passport.use(new GoogleStrategy({
   clientID: GOOGLE_CLIENT_ID,
   clientSecret: GOOGLE_CLIENT_SECRET,
-  callbackURL: "http://localhost:8080/auth/google/callback",
+  callbackURL: "https://habit-tracker-mr.herokuapp.com/auth/google/callback",
+  //"http://localhost:8080/auth/google/callback",
   passReqToCallback: true,
 },
 (request, accessToken, refreshToken, profile, done) =>{

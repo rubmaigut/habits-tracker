@@ -5,6 +5,7 @@ import { combineReducers, createStore } from "@reduxjs/toolkit";
 
 import { user } from "./helpers/user-reducer";
 import UserForm from "./components/UserForm";
+import SignUp from "./components/UserForm-SignUp";
 
 const reducer = combineReducers({
   user: user.reducer,
@@ -20,6 +21,9 @@ const App = () => {
       <Switch>
         <Route exact path="/">
         <UserForm/>
+        </Route>
+        <Route exact path="/user/new/signup">
+          <SignUp/>
         </Route>
       </Switch>
       </main>
