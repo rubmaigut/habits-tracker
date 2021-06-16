@@ -1,18 +1,20 @@
 import React from "react";
-
+import TextField from "@material-ui/core/TextField";
 import { useStyles } from "../styled/material-UI";
 import Avatar from "@material-ui/core/Avatar";
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-
 import {
-    MainWrapper,
-    BorderStyle,
-    FormWrapper,
-  } from "../styled/StyledComponents";
+  MainWrapper,
+  BorderStyle,
+  FormWrapper,
+  GoogleButton,
+  GoogleIcon,
+  Paragraph
+} from "../styled/StyledComponents";
+
+import googleIcon from "../assets/google-symbol.png"
 
 const SignUp = () => {
   const classes = useStyles();
@@ -22,9 +24,7 @@ const SignUp = () => {
       <BorderStyle></BorderStyle>
       <FormWrapper>
         <Avatar className={classes.avatar}></Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in 
-        </Typography>
+
         <form className={classes.form} noValidate>
           <TextField
             variant="outlined"
@@ -56,10 +56,8 @@ const SignUp = () => {
             type="submit"
             fullWidth
             variant="contained"
-            color="primary"
             className={classes.submit}
           >
-            {" "}
             SIGN IN
           </Button>
         </form>

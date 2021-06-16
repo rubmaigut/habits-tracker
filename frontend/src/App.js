@@ -5,7 +5,7 @@ import { combineReducers, createStore } from "@reduxjs/toolkit";
 
 import { user } from "./helpers/user-reducer";
 import UserForm from "./components/UserForm";
-import SignUp from "./components/UserForm-SignUp";
+import SignUp from "./components/UserForm-Signup"
 
 const reducer = combineReducers({
   user: user.reducer,

@@ -7,9 +7,10 @@ body,
   padding: 0;
   display: flow-root;
   background-color: #ffeeef;
+  font-family: sans-serif;
+  font-size: 15px;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: sans-serif;
 }
