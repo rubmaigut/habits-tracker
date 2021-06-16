@@ -46,7 +46,7 @@ app.use("/icon-directory", express.static(publicDir));
 
 /**** USER MODEL *****/
 //google auth feature
-app.get("/", (req, res) => {
+app.get("/users/new", (req, res) => {
   res.send('<a href="/auth/google">Authenticate with Google</a>');
 });
 
@@ -77,7 +77,7 @@ app.get("/auth/google/failure", (req, res) => {
 });
 
 //create user manually
-app.post("/signup", async (req, res) => {
+app.post("/user/new/signup", async (req, res) => {
   const { email, username, password } = req.body;
   try {
     const salt = bycrypt.genSaltSync();
