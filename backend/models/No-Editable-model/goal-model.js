@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-const dataGoal = require("../../categories.json")
+const dataGoal = require("../../goals.json")
 
 const Goal = mongoose.model('Goal',{
     unitName: String,

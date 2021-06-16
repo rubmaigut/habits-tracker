@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-const dataTimeRange = require("../../frequencies.json")
+const dataTimeRange = require("../../timeranges.json")
 
 const TimeRange = mongoose.model('TimeRange',{
     timeRangeName: String,
