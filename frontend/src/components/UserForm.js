@@ -24,11 +24,16 @@ const UserForm = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
+
   const fetchAuthUser = async () => {
     const response = await axios
       .get("https://habit-tracker-mr.herokuapp.com/home/", {
-        withCredentials: true,
-        crossdomain: true
+        //withCredentials: true,
+        crossdomain: true,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
+        }
       })
       .catch((err) => {
         console.log("Not properly authenticated");
@@ -37,8 +42,8 @@ const UserForm = () => {
       });
     const res = await fetch("https://habit-tracker-mr.herokuapp.com/home/")
       .then((res) => res.json())
-      .then((json) => console.log(json))
-      .catch((err) => console.log(err));
+      .then((json) => console.log('no axio',json))
+      .catch((err) => console.log('no axio',err));
 
     if (response && response.data) {
       console.log("user", response.data);
