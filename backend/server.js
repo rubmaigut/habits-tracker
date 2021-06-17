@@ -45,7 +45,7 @@ app.use(function(req, res, next) {
 
 app.use(cors());
 // Add middlewares to enable cors and json body parsing
-//app.use(cors({origin:"http://localhost:3000/", credentials: true, crossdomain: true}));
+app.use(cors({origin:"http://localhost:3000/", crossdomain: true, "Access-Control-Allow-Credentials": true, "Access-Control-Allow-Origin": "http://localhost:3000/" }));
 app.use(express.json());
 app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
