@@ -15,34 +15,42 @@ import {
 } from "../styled/StyledComponents";
 
 import emailIcon from "../assets/message.png";
-import { user } from "../helpers/user-reducer"
+import { user } from "../helpers/user-reducer";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-
 const UserForm = () => {
-  const history = useHistory()
-  const dispatch = useDispatch()
+  const history = useHistory();
+  const dispatch = useDispatch();
 
   const fetchAuthUser = async () => {
     const response = await axios
-      .get("https://habit-tracker-mr.herokuapp.com/home/", { withCredentials: true })
+      .get("https://habit-tracker-mr.herokuapp.com/home/", {
+        withCredentials: true,
+        crossdomain: true
+      })
       .catch((err) => {
         console.log("Not properly authenticated");
-        dispatch(user.actions.setAuthenticated(false))
-      dispatch(user.actions.setUser(null))
+        dispatch(user.actions.setIsAuthenticated(false));
+        dispatch(user.actions.setUser(""));
       });
+    const res = await fetch("https://habit-tracker-mr.herokuapp.com/home/")
+      .then((res) => res.json())
+      .then((json) => console.log(json))
+      .catch((err) => console.log(err));
+
     if (response && response.data) {
       console.log("user", response.data);
-      dispatch(user.actions.setIsAuthenticated(true))
-      dispatch(user.actions.setUser(response.data))
-      history.push("/home")
-  }
-}
+      dispatch(user.actions.setIsAuthenticated(true));
+      dispatch(user.actions.setUser(response.data));
+      history.push("/home");
+    }
+  };
   const redirecttoGoogle = async () => {
-    let timer= null
-    const googleLoginUrl = "https://habit-tracker-mr.herokuapp.com/auth/google/";
+    let timer = null;
+    const googleLoginUrl =
+      "https://habit-tracker-mr.herokuapp.com/auth/google/";
     const newWindow = window.open(
       googleLoginUrl,
       "_blank",
@@ -50,13 +58,13 @@ const UserForm = () => {
     );
 
     if (newWindow) {
-      timer = setInterval(()=>{
-        if (newWindow.closed){
-          console.log('authenticated')
-          fetchAuthUser()
-          if (timer) clearInterval(timer)
+      timer = setInterval(() => {
+        if (newWindow.closed) {
+          console.log("authenticated");
+          fetchAuthUser();
+          if (timer) clearInterval(timer);
         }
-      },500)
+      }, 500);
     }
   };
 
