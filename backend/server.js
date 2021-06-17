@@ -29,8 +29,8 @@ mongoose.Promise = Promise;
 const port = process.env.PORT || 8080;
 const app = express();
 
-const successLoginUrl = "http://localhost:3000/login/success"
-const errorLoginUrl = "http://localhost:3000/login/error"
+const successLoginUrl = "https://cranky-mcnulty-20270e.netlify.app/login/success"
+const errorLoginUrl = "https://cranky-mcnulty-20270e.netlify.app/login/error"
 
 const isLoggedIn = (req, res, next) => {
   req.user ? next() : res.sendStatus(401).send('You must be logged in');
