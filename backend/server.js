@@ -29,8 +29,8 @@ mongoose.Promise = Promise;
 const port = process.env.PORT || 8080;
 const app = express();
 
-const successLoginUrl = "https://cranky-mcnulty-20270e.netlify.app/login/success"
-const errorLoginUrl = "https://cranky-mcnulty-20270e.netlify.app/login/error"
+const successLoginUrl = "http://cranky-mcnulty-20270e.netlify.app/login/success"
+const errorLoginUrl = "http://cranky-mcnulty-20270e.netlify.app/login/error"
 
 const isLoggedIn = (req, res, next) => {
   req.user ? next() : res.sendStatus(401).send('You must be logged in');
@@ -38,7 +38,7 @@ const isLoggedIn = (req, res, next) => {
 const publicDir = require("path").join(__dirname, "/public/assets");
 
 // Add middlewares to enable cors and json body parsing
-app.use(cors({origin: "https://cranky-mcnulty-20270e.netlify.app/", credentials: true}));
+app.use(cors({origin: "http://cranky-mcnulty-20270e.netlify.app/", credentials: true}));
 app.use(express.json());
 app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
