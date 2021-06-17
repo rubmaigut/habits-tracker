@@ -5,7 +5,7 @@ import { combineReducers, createStore } from "@reduxjs/toolkit";
 import { user } from "./helpers/user-reducer";
 
 import UserForm from "./components/UserForm";
-import SignUp from "./components/UserForm-Signup"
+import SignUp from "./components/UserFormSignup"
 import LoginSuccess from "./components/LoginSuccess";
 import Home from "./components/Home";
 
