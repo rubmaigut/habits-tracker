@@ -27,7 +27,7 @@ const UserForm = () => {
 
   const fetchAuthUser = async () => {
     const response = await axios
-      .get("http://localhost:8080/home/", { withCredentials: true })
+      .get("https://habit-tracker-mr.herokuapp.com/home", { withCredentials: true })
       .catch((err) => {
         console.log("Not properly authenticated");
         dispatch(user.actions.setIsAuthenticated(false))
@@ -42,7 +42,7 @@ const UserForm = () => {
 }
   const redirecttoGoogle = async () => {
     let timer= null
-    const googleLoginUrl = "http://localhost:8080/auth/google/";
+    const googleLoginUrl = "https://habit-tracker-mr.herokuapp.com/auth/google/";
     const newWindow = window.open(
       googleLoginUrl,
       "_blank",
