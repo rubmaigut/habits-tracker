@@ -29,14 +29,16 @@ mongoose.Promise = Promise;
 const port = process.env.PORT || 8080;
 const app = express();
 
-const isLoggedIn = (req, res, next) => {
-  req.user ? next() : res.sendStatus(401);
-};
+const successLoginUrl = "http://localhost:3000/login/success"
+const errorLoginUrl = "http://localhost:3000/login/error"
 
+const isLoggedIn = (req, res, next) => {
+  req.user ? next() : res.sendStatus(401).send('You must be logged in');
+};
 const publicDir = require("path").join(__dirname, "/public/assets");
 
 // Add middlewares to enable cors and json body parsing
-app.use(cors());
+app.use(cors({origin: "http://localhost:3000", credentials: true}));
 app.use(express.json());
 app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
@@ -46,10 +48,6 @@ app.use("/icon-directory", express.static(publicDir));
 
 /**** USER MODEL *****/
 //google auth feature
-app.get("/users/new", (req, res) => {
-  res.send('<a href="/auth/google">Authenticate with Google</a>');
-});
-
 app.get(
   "/auth/google",
   passport.authenticate("google", { scope: ["email", "profile"] })
@@ -58,23 +56,18 @@ app.get(
 app.get(
   "/auth/google/callback",
   passport.authenticate("google", {
-    successRedirect: "/protected",
-    failureRedirect: "/auth/google/failure",
-  })
+    successRedirect: successLoginUrl,
+    failureRedirect: errorLoginUrl,
+    failureMessage: "Cannot login to Google, please try again",
+  }),
+  (req, res)=>{
+    res.send(`Thank you for Signing in! ${req.user.displayName}`)
+  }
 );
-app.get("/protected", isLoggedIn, (req, res) => {
-  res.send(`Hello ${req.user.displayName}`);
-});
 
-app.get("/logout", (req, res) => {
-  req.logout();
-  req.session.destroy();
-  res.send("Goodbye!");
-});
-
-app.get("/auth/google/failure", (req, res) => {
-  res.send("Failed to authenticate..");
-});
+app.get("/home",isLoggedIn, async(req, res)=>{
+  res.json(req.user)
+})
 
 //create user manually
 app.post("/user/new/signup", async (req, res) => {
@@ -100,7 +93,7 @@ app.post("/user/new/signup", async (req, res) => {
 /**** USER MODEL - END *****/
 
 /**** HABIT MODEL  ****/
-app.post("/habits", async (req, res) => {
+app.post("/habits", isLoggedIn, async (req, res) => {
   const { name, message, count, startedDate, endingDate } = req.body;
 
   try {
@@ -148,7 +141,7 @@ app.post("/habits", async (req, res) => {
   }
 });
 
-app.put("/habits/update/:id", async (req, res) => {
+app.put("/habits/update/:id", isLoggedIn, async (req, res) => {
   const { id } = req.params;
   const { name, message, count, startedDate, endingDate, isSelected } =
     req.body;
@@ -198,7 +191,7 @@ app.put("/habits/update/:id", async (req, res) => {
   }
 });
 
-app.post("/habit/done/:id", async (req, res) => {
+app.post("/habit/done/:id", isLoggedIn, async (req, res) => {
   const { id } = req.params;
   const { isDone, userDate, notes } = req.body;
 

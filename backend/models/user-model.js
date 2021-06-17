@@ -39,6 +39,9 @@ const validateEmail = (email) => {
     googleId: {
       type: String,
       unique: true,
+    },
+    picture:{
+      type: String
     }
   });
   /*****  END SET SCHEMA   ******/

@@ -17,7 +17,6 @@ export const Title = styled.h1`
 export const Subtitle = styled.h3`
   font-weight: bold;
   color: black;
-
 `;
 
 export const Paragraph = styled.p`
@@ -38,37 +37,25 @@ export const FormWrapper = styled.form`
   justify-content: center;
 `;
 export const Wrapper = styled.div`
-  width: 100%;
+  width: 240px;
   height: 50px;
   margin: 10px;
-  background-color: #fff;
-  display: flex;
-  justify-content: center;
-  border-radius: 5px;
-`;
-export const GoogleButton = styled.button`
-  width: 100%;
-  height: 50px;
-  border-width: 0;
-  background: white;
-  color: #737373;
-  border-radius: 5px;
-  padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #fff;
+  box-shadow: rgb(0 0 0 / 25%) 0px 2px 4px 0px;
 `;
+
 export const EmailButton = styled.button`
   width: 100%;
   height: 50px;
   border-width: 0px;
   background: white;
   color: #737373;
-  border-radius: 5px;
   padding: 0;
-  display: flex;
-  justify-content: center;
   align-items: center;
+  font-size: 16px;
 `;
 export const GoogleIcon = styled.img`
   width: 30px;
