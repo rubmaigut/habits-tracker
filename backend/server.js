@@ -38,7 +38,7 @@ const isLoggedIn = (req, res, next) => {
 const publicDir = require("path").join(__dirname, "/public/assets");
 
 // Add middlewares to enable cors and json body parsing
-app.use(cors({origin: "https://60cbc9fb72fa9100074d9544--cranky-mcnulty-20270e.netlify.app/", credentials: true}));
+app.use(cors({origin: "https://cranky-mcnulty-20270e.netlify.app/", credentials: true}));
 app.use(express.json());
 app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
