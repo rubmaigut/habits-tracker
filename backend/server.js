@@ -29,22 +29,22 @@ mongoose.Promise = Promise;
 const port = process.env.PORT || 8080;
 const app = express();
 
-const successLoginUrl = "http://localhost:3000/login/success";
-const errorLoginUrl = "http://localhost:3000/login/error";
+const successLoginUrl = "http://localhost:3000/login/success"
+const errorLoginUrl = "http://localhost:3000/login/error"
 
 const isLoggedIn = (req, res, next) => {
-  cors();
-  req.user ? next() : res.sendStatus(401).send("You must be logged in");
+  req.user ? next() : res.sendStatus(401).send('You must be logged in');
 };
 const publicDir = require("path").join(__dirname, "/public/assets");
 
 // Add middlewares to enable cors and json body parsing
-app.use(cors());
+app.use(cors({origin: "http://localhost:3000", credentials: true}));
 app.use(express.json());
 app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use("/icon-directory", express.static(publicDir));
+
 
 /**** USER MODEL *****/
 //google auth feature
@@ -60,14 +60,14 @@ app.get(
     failureRedirect: errorLoginUrl,
     failureMessage: "Cannot login to Google, please try again",
   }),
-  (req, res) => {
-    res.send(`Thank you for Signing in! ${req.user.displayName}`);
+  (req, res)=>{
+    res.send(`Thank you for Signing in! ${req.user.displayName}`)
   }
 );
 
-app.get("/home", isLoggedIn, async (req, res) => {
-  res.json(req.user);
-});
+app.get("/home",isLoggedIn, async(req, res)=>{
+  res.json(req.user)
+})
 
 //create user manually
 app.post("/user/new/signup", async (req, res) => {
