@@ -36,7 +36,7 @@ const isLoggedIn = (req, res, next) => {
   req.user ? next() : res.sendStatus(401).send('You must be logged in');
 };
 const publicDir = require("path").join(__dirname, "/public/assets");
-
+app.use(cors());
 // Add middlewares to enable cors and json body parsing
 app.use(cors({origin: "http://localhost:3000", credentials: true}));
 app.use(express.json());
