@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 import TextField from "@material-ui/core/TextField";
 import { useStyles } from "../styled/material-UI";
@@ -14,16 +16,46 @@ import {
   FormWrapper,
 } from "../styled/StyledComponents";
 
+import { createUser } from "../helpers/Fetch-API"
+import { user } from "../helpers/user-reducer"
 
 const SignUp = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const classes = useStyles();
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
+  const accessToken = useSelector((store)=> store.user.accessToken)
+
+  useEffect(() => {
+    if (accessToken) {
+      history.push("/home");
+    }
+  }, [accessToken]);
+
+  const OnsubmitUser= async ()=>{
+     const { userInfo, error400 }= await createUser(
+       email,
+       username,
+       password
+     )
+     if (userInfo) {
+       dispatch(user.actions.setUser(userInfo))
+       history.push("/home")
+       console.log(userInfo)
+     }else{
+       setError(error400)
+       return error
+     }
+  }
 
   return (
     <MainWrapper>
       <BorderStyle></BorderStyle>
-      <FormWrapper>
+      <FormWrapper className={classes.form} noValidate>
         <Avatar className={classes.avatar}></Avatar>
-        <form className={classes.form} noValidate>
           <TextField
             variant="outlined"
             margin="normal"
@@ -34,6 +66,7 @@ const SignUp = () => {
             name="username"
             autoComplete="username"
             autoFocus
+            onChange={(e)=> setUsername(e.target.value)}
           />
           <TextField
             variant="outlined"
@@ -45,6 +78,7 @@ const SignUp = () => {
             name="email"
             autoComplete="email"
             autoFocus
+            onChange={(e)=> setEmail(e.target.value)}
           />
           <TextField
             variant="outlined"
@@ -56,6 +90,7 @@ const SignUp = () => {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={(e)=> setPassword(e.target.value)}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
@@ -66,6 +101,7 @@ const SignUp = () => {
             fullWidth
             variant="contained"
             className={classes.submit}
+            onClick={OnsubmitUser}
           >
             SIGN IN
           </Button>
@@ -73,7 +109,6 @@ const SignUp = () => {
         <Link to={"/"}>
           Back
         </Link>
-        </form>
       </FormWrapper>
     </MainWrapper>
   );

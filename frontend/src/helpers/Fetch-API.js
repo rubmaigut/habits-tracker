@@ -1,5 +1,6 @@
 export const createUser = async (email, username, password) => {
-    let API_URL_NEW_USER = " https://habit-tracker-mr.herokuapp.com//user/new/signup"
+    let API_URL_NEW_USER = "http://localhost:8080/user/new/signup"
+    //" https://habit-tracker-mr.herokuapp.com/user/new/signup"
   
     let userInfo;
     let error400;

@@ -14,8 +14,8 @@ passport.use(
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
       callbackURL:
-      "https://habit-tracker-mr.herokuapp.com/auth/google/callback",
-      //"http://localhost:8080/auth/google/callback",
+        //"https://habit-tracker-mr.herokuapp.com/auth/google/callback",
+        "http://localhost:8080/auth/google/callback",
       passReqToCallback: true,
     },
     async (request, accessToken, refreshToken, profile, done) => {
@@ -23,7 +23,7 @@ passport.use(
         $or: [{ googleId: profile.id }, { email: profile.email }],
       }).then((currentUser) => {
         if (currentUser) {
-          return done(null,currentUser, profile);
+          return done(null, currentUser, profile);
         } else {
           new User({
             googleId: profile.id,

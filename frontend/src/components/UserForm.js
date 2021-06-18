@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import GoogleButton from "react-google-button";
 import axios from "axios";
 
@@ -16,9 +18,6 @@ import {
 
 import emailIcon from "../assets/message.png";
 import { user } from "../helpers/user-reducer"
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 
 
 const UserForm = () => {
@@ -29,12 +28,13 @@ const UserForm = () => {
     const response = await axios
       .get("http://localhost:8080/home/", { withCredentials: true })
       .catch((err) => {
-        console.log("Not properly authenticated");
+        //console.log("Not properly authenticated");
         dispatch(user.actions.setIsAuthenticated(false))
-      dispatch(user.actions.setUser(null))
+        dispatch(user.actions.setUser(null))
+        history.push("/login/error")
       });
     if (response && response.data) {
-      console.log("user", response.data);
+      //console.log("user", response.data);
       dispatch(user.actions.setIsAuthenticated(true))
       dispatch(user.actions.setUser(response.data))
       history.push("/home")
@@ -52,7 +52,7 @@ const UserForm = () => {
     if (newWindow) {
       timer = setInterval(()=>{
         if (newWindow.closed){
-          console.log('authenticated')
+          //console.log('authenticated')
           fetchAuthUser()
           if (timer) clearInterval(timer)
         }

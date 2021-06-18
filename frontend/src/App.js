@@ -7,6 +7,7 @@ import { user } from "./helpers/user-reducer";
 import UserForm from "./components/UserForm";
 import SignUp from "./components/UserFormSignup"
 import LoginSuccess from "./components/LoginSuccess";
+import LoginError from "./components/LoginError";
 import Home from "./components/Home";
 
 const reducer = combineReducers({
@@ -26,6 +27,9 @@ const App = () => {
         </Route>
         <Route exact path="/login/success">
           <LoginSuccess/>
+        </Route>
+        <Route exact path="/login/error">
+          <LoginError/>
         </Route>
         <Route exact path="/user/new/signup">
           <SignUp/>
