@@ -34,7 +34,7 @@ const UserForm = () => {
         history.push("/login/error")
       });
     if (response && response.data) {
-      //console.log("user", response.data);
+      console.log("user", response.data);
       dispatch(user.actions.setIsAuthenticated(true))
       dispatch(user.actions.setUser(response.data))
       history.push("/home")
@@ -70,7 +70,7 @@ const UserForm = () => {
           style={{ backgroundColor: "#fff", color: "#737373" }}
           onClick={redirecttoGoogle}
         />
-        <Link to={"/user/new/signup"} style={{ textDecoration: "none" }}>
+        <Link to={"/user/signup"} style={{ textDecoration: "none" }}>
           <Wrapper>
             <GoogleIcon src={emailIcon} />
             <EmailButton type="submit">Sign in with Email</EmailButton>

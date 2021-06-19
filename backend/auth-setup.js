@@ -13,9 +13,8 @@ passport.use(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL:
+      callbackURL:`${process.env.BASE_URL}/auth/google/callback`,
         //"https://habit-tracker-mr.herokuapp.com/auth/google/callback",
-        "http://localhost:8080/auth/google/callback",
       passReqToCallback: true,
     },
     async (request, accessToken, refreshToken, profile, done) => {

@@ -1,6 +1,8 @@
+require('dotenv').config()
 const express = require("express");
 const session = require("express-session");
 const cors = require("cors");
+const crypto = require("crypto");
 const bycrypt = require("bcrypt");
 const passport = require("passport");
 const mongoose = require("mongoose");
@@ -8,14 +10,16 @@ const mongoose = require("mongoose");
 const User = require("./models/user-model");
 const Habit = require("./models/habits-model");
 const HabitDone = require("./models/tracker-model");
+const Icon = require("./models/No-Editable-model/icons-mode");
+const Category = require('./models/No-Editable-model/category-model');
+const Goal = require('./models/No-Editable-model/goal-model');
+const Frequency = require('./models/No-Editable-model/frequency-model');
+const TimeRange = require('./models/No-Editable-model/timeRange-model');
 
 require("./models/No-Editable-model/category-model");
 require("./models/No-Editable-model/goal-model");
 require("./models/No-Editable-model/frequency-model");
 require("./models/No-Editable-model/timeRange-model");
-
-const Icon = require("./models/No-Editable-model/icons-mode");
-
 require("./auth-setup");
 
 const mongoUrl = process.env.MONGO_URL || "mongodb://localhost/habit-tracker";
@@ -29,22 +33,33 @@ mongoose.Promise = Promise;
 const port = process.env.PORT || 8080;
 const app = express();
 
-const successLoginUrl = "http://localhost:3000/login/success"
-const errorLoginUrl = "http://localhost:3000/login/error"
+//Global Variables
+const successLoginUrl = `${process.env.FE_URL}/login/success`;
+const errorLoginUrl = `${process.env.FE_URL}/login/error`;
 
 const isLoggedIn = (req, res, next) => {
-  req.user ? next() : res.sendStatus(401).send('You must be logged in');
+  req.user ? next() : res.sendStatus(401).send("You must be logged in");
 };
 const publicDir = require("path").join(__dirname, "/public/assets");
 
+const algorithm = "aes-256-ctr";
+const secretKey = "vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3";
+const iv = crypto.randomBytes(16);
+
+const encrypt = (text) => {
+  const cipher = crypto.createCipheriv(algorithm, secretKey, iv);
+  const encrypted = Buffer.concat([cipher.update(text), cipher.final()]);
+
+  return encrypted.toString("hex");
+};
+
 // Add middlewares to enable cors and json body parsing
-app.use(cors({origin: "http://localhost:3000", credentials: true}));
+app.use(cors({ origin: `${process.env.FE_URL}`, credentials: true }));
 app.use(express.json());
 app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use("/icon-directory", express.static(publicDir));
-
 
 /**** USER MODEL *****/
 //google auth feature
@@ -60,33 +75,37 @@ app.get(
     failureRedirect: errorLoginUrl,
     failureMessage: "Cannot login to Google, please try again",
   }),
-  (req, res)=>{
-    res.send(`Thank you for Signing in! ${req.user.displayName}`)
+  (req, res) => {
+    res.send(`Thank you for Signing in! ${req.user.displayName}`);
   }
 );
 
-app.get("/home",isLoggedIn, async(req, res)=>{
-  res.json(req.user)
-})
+app.get("/home", isLoggedIn, async (req, res) => {
+  res.json(req.user);
+});
 
 //create user manually
 app.post("/user/new/signup", async (req, res) => {
   const { email, username, password } = req.body;
+
   try {
     const salt = bycrypt.genSaltSync();
+
+    const googleIdFake = encrypt(email);
 
     const newUser = await new User({
       email,
       username,
       password: bycrypt.hashSync(password, salt),
+      googleId: googleIdFake,
     }).save();
-
     res.json({
       userId: newUser._id,
       username: newUser.username,
       accessToken: newUser.accessToken,
     });
   } catch (error) {
+    console.log("error", error);
     res.status(400).json(error);
   }
 });
@@ -212,6 +231,53 @@ app.post("/habit/done/:id", isLoggedIn, async (req, res) => {
 });
 
 /**** HABIT MODEL - END ****/
+
+/****  GET ICON LIST ****/
+
+app.get("/icons", async (req, res) => {
+  try {
+    const icon = await Icon.find({});
+    res.send(icon);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+/****  END GET ICON LIST ****/
+
+/****  GET DEFAULT DATA *****/
+app.get("/setup/category", async (req, res) => {
+  try {
+    const category = await Category.find({});
+    res.send(category);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+app.get("/setup/goal", async (req, res) => {
+  try {
+    const goal = await Goal.find({});
+    res.send(goal);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+app.get("/setup/frequency", async (req, res) => {
+  try {
+    const frequency = await Frequency.find({});
+    res.send(frequency);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+app.get("/setup/timeRange", async (req, res) => {
+  try {
+    const timeRange = await TimeRange.find({});
+    res.send(timeRange);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+/****  END GET DEFAULT DATA *****/
 
 // Start the server
 app.listen(port, () => {

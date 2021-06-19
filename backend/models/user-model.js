@@ -14,7 +14,6 @@ const validateEmail = (email) => {
     email: {
       type: String,
       required: true,
-      unique: true,
       trim: true,
       validate: [validateEmail, "Please fill a valid email address"],
       match: [
@@ -24,7 +23,6 @@ const validateEmail = (email) => {
     },
     username: {
       type: String,
-      unique: true,
       required: true,
       trim: true,
     },
@@ -38,11 +36,13 @@ const validateEmail = (email) => {
     },
     googleId: {
       type: String,
-      unique: true,
+      unique: true
     },
     picture:{
       type: String
     }
   });
   /*****  END SET SCHEMA   ******/
+
   module.exports = User;
+

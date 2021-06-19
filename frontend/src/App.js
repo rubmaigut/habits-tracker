@@ -1,45 +1,30 @@
 import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
 import { combineReducers, createStore } from "@reduxjs/toolkit";
 import { user } from "./helpers/user-reducer";
 
-import UserForm from "./components/UserForm";
-import SignUp from "./components/UserFormSignup"
-import LoginSuccess from "./components/LoginSuccess";
-import LoginError from "./components/LoginError";
-import Home from "./components/Home";
+import Routes from "./Routes";
+
+import { loadState, saveState } from "./helpers/local-storage"
+
+const persistedState = loadState();
 
 const reducer = combineReducers({
   user: user.reducer,
 });
 
-const store = createStore(reducer);
+const store = createStore(reducer, persistedState);
+
+store.subscribe(() => {
+  saveState({
+    user: store.getState().user
+  });
+});
 
 const App = () => {
   return (
     <Provider store={store}>
-      <BrowserRouter>
-      <main>
-      <Switch>
-        <Route exact path="/">
-        <UserForm/>
-        </Route>
-        <Route exact path="/login/success">
-          <LoginSuccess/>
-        </Route>
-        <Route exact path="/login/error">
-          <LoginError/>
-        </Route>
-        <Route exact path="/user/new/signup">
-          <SignUp/>
-        </Route>
-        <Route exact path="/home">
-        <Home/>
-        </Route>
-      </Switch>
-      </main>
-      </BrowserRouter>
+      <Routes />
     </Provider>
   );
 };

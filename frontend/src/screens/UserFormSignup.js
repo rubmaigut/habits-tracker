@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
+import { useStyles } from "../styled/materialUI-UserForm";
 import TextField from "@material-ui/core/TextField";
-import { useStyles } from "../styled/material-UI";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -43,6 +43,7 @@ const SignUp = () => {
      )
      if (userInfo) {
        dispatch(user.actions.setUser(userInfo))
+       dispatch(user.actions.setIsAuthenticated(true))
        history.push("/home")
        console.log(userInfo)
      }else{
@@ -55,7 +56,7 @@ const SignUp = () => {
     <MainWrapper>
       <BorderStyle></BorderStyle>
       <FormWrapper className={classes.form} noValidate>
-        <Avatar className={classes.avatar}></Avatar>
+        <Avatar></Avatar>
           <TextField
             variant="outlined"
             margin="normal"
@@ -97,7 +98,6 @@ const SignUp = () => {
             label="Remember me"
           />
           <Button
-            type="submit"
             fullWidth
             variant="contained"
             className={classes.submit}
