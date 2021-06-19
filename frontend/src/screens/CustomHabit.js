@@ -1,21 +1,25 @@
+import "moment";
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { MainWrapper, FormWrapper, IconSize } from "../styled/StyledComponents";
-import { useStyles } from "../styled/materialUI-Modal";
+import { useStyles, materialTheme } from "../styled/materialUI-Modal";
 
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import AdapterDateFns from "@material-ui/lab/AdapterDateFns";
-import LocalizationProvider from "@material-ui/lab/LocalizationProvider";
-import DatePicker from "@material-ui/lab/DatePicker";
-import MobileDatePicker from "@material-ui/lab/MobileDatePicker";
-import Stack from "@material-ui/core/Stack";
+
+import {
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
+
+import { ThemeProvider } from "@material-ui/styles";
 
 import Header from "../components/Header";
 import CustomSelect from "../components/CustomSelect";
 import IconModal from "../components/IconModal";
 import CustomModal from "../components/CustomModal";
 import { formDataSelected } from "../helpers/Fetch-API";
+
+import { DatePicker } from "react-rainbow-components";
 
 const tableNames = ["category", "goal", "frequency", "timeRange"];
 
@@ -24,8 +28,6 @@ const CustomHabit = () => {
   const history = useHistory();
 
   const [habitName, setHabitName] = useState("");
-  const [startate, setStartDate] = useState();
-  const [endtate, setEndDate] = useState();
   const [count, setCount] = useState("");
   const [message, setMessage] = useState("");
   const [category, setCategory] = useState("");
@@ -38,6 +40,9 @@ const CustomHabit = () => {
   const [timeData, setTimeData] = useState([]);
   const [iconSelected, setIconSelected] = useState(null);
   const [displayIconModal, setDisplayIconModal] = useState(false);
+
+  const [startate, setStartDate] = useState();
+  const [endtate, setEndDate] = useState();
 
   const onSelectIcon = (icon) => {
     setDisplayIconModal(false);
@@ -98,6 +103,8 @@ const CustomHabit = () => {
   }, []);
 
   return (
+      <ThemeProvider theme={materialTheme}>
+
     <MainWrapper>
       <Header title="Custom Habits" leftOnClick={history.goBack} />
       <Button
@@ -174,20 +181,36 @@ const CustomHabit = () => {
           value={message}
           label="message"
         />
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <Stack spacing={3}>
-            <MobileDatePicker
-              label="For mobile"
-              value={value}
-              onChange={(newValue) => {
-                setValue(newValue);
-              }}
-              renderInput={(params) => <TextField {...params} />}
-            />
-          </Stack>
-        </LocalizationProvider>
+
+        <KeyboardDatePicker
+          margin="normal"
+          id="date-picker-dialog"
+          label="Date picker dialog"
+          format="MM/DD/YYYY"
+          value={startate}
+          onChange={setStartDate}
+          KeyboardButtonProps={{
+            "aria-label": "change date",
+          }}
+        />
+        <KeyboardDatePicker
+          margin="normal"
+          id="date-picker-dialog"
+          label="Date picker dialog"
+          format="MM/DD/YYYY"
+          value={endtate}
+          minDate={startate}
+          onChange={setEndDate}
+          KeyboardButtonProps={{
+            "aria-label": "change date",
+          }}
+          disabled={startate ? false : true}
+        />
+
       </FormWrapper>
     </MainWrapper>
+    </ThemeProvider>
+
   );
 };
 export default CustomHabit;

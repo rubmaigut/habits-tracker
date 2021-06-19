@@ -1,4 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
+import { createMuiTheme } from "@material-ui/core";
 
 export const useStyles = makeStyles((theme) => ({
   form: {
@@ -26,3 +27,14 @@ export const useStyles = makeStyles((theme) => ({
     boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
   },
 }));
+
+export const materialTheme = createMuiTheme({
+  overrides: {
+    MuiPickersToolbar: {
+      toolbar: {
+        backgroundColor: "#000000",
+      },
+    },
+    
+  },
+});
