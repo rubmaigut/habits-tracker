@@ -1,0 +1,281 @@
+[{
+  "isSelected": false,
+  "category": {
+    "categoryName": "Physical",
+    "description": " It contains all the habits to improve your body, including nutritional habits."
+  },
+  "name": "Run",
+  "count": 0,
+  "goal": "km",
+  "frequency": "Daily",
+  "timeRange": "Anytime",
+  "icon": {
+    "imageName": "marathon",
+    "url": "http://localhost:8080/icon-directory/marathon.png"
+  },
+  "message": "any"
+},{
+  "isSelected": false,
+  "category": {
+    "categoryName": "Physical",
+    "description": " It contains all the habits to improve your body, including nutritional habits."
+  },
+  "name": "Yoga",
+  "count": 0,
+  "goal": "min",
+  "frequency": "Daily",
+  "timeRange": "Anytime",
+  "icon": {
+    "imageName": "downward-facing-dog",
+    "url": "http://localhost:8080/icon-directory/downward-facing-dog.png"
+  },
+  "message": "any"
+},{
+  "isSelected": false,
+  "category": {
+    "categoryName": "Physical",
+    "description": " It contains all the habits to improve your body, including nutritional habits."
+  },
+  "name": "Cycling",
+  "count": 0,
+  "goal": "min",
+  "frequency": "Daily",
+  "timeRange": "Anytime",
+  "icon": {
+    "imageName": "bicycle",
+    "url": "http://localhost:8080/icon-directory/bicycle.png"
+  },
+  "message": "any"
+},{
+  "isSelected": false,
+  "category": {
+    "categoryName": "Physical",
+    "description": " It contains all the habits to improve your body, including nutritional habits."
+  },
+  "name": "Swim",
+  "count": 0,
+  "goal": "min",
+  "frequency": "Daily",
+  "timeRange": "Anytime",
+  "icon": {
+    "imageName": "swimmer",
+    "url": "http://localhost:8080/icon-directory/swimmer.png"
+  },
+  "message": "any"
+},{
+  "isSelected": false,
+  "category": {
+
+    "categoryName": "Physical",
+    "description": " It contains all the habits to improve your body, including nutritional habits."
+  },
+  "name": "Exercise",
+  "count": 0,
+  "goal": "min",
+  "frequency": "Daily",
+  "timeRange": "Anytime",
+  "icon": {
+
+    "imageName": "excercise",
+    "url": "http://localhost:8080/icon-directory/excercise.png"
+  },
+  "message": "any"
+},{
+  "isSelected": false,
+  "category": {
+
+    "categoryName": "Mental",
+    "description": "It contains all the habits to keep your mind healthy and strong."
+  },
+  "name": "Breathe",
+  "count": 0,
+  "goal": "min",
+  "frequency": "Daily",
+  "timeRange": "Anytime",
+  "icon": {
+
+    "imageName": "lotus",
+    "url": "http://localhost:8080/icon-directory/lotus.png"
+  },
+  "message": "any"
+},{
+  "isSelected": false,
+  "category": {
+
+    "categoryName": "Mental",
+    "description": "It contains all the habits to keep your mind healthy and strong."
+  },
+  "name": "Meditation",
+  "count": 0,
+  "goal": "min",
+  "frequency": "Daily",
+  "timeRange": "Anytime",
+  "icon": {
+
+    "imageName": "yoga",
+    "url": "http://localhost:8080/icon-directory/yoga.png"
+  },
+  "message": "any"
+},{
+  "isSelected": false,
+  "category": {
+
+    "categoryName": "Mental",
+    "description": "It contains all the habits to keep your mind healthy and strong."
+  },
+  "name": "Mind Clearing",
+  "count": 0,
+  "goal": "min",
+  "frequency": "Daily",
+  "timeRange": "Anytime",
+  "icon": {
+
+    "imageName": "anahata",
+    "url": "http://localhost:8080/icon-directory/anahata.png"
+  },
+  "message": "any"
+},{
+  "isSelected": false,
+  "category": {
+
+    "categoryName": "Mental",
+    "description": "It contains all the habits to keep your mind healthy and strong."
+  },
+  "name": "Learning",
+  "count": 0,
+  "goal": "min",
+  "frequency": "Daily",
+  "timeRange": "Anytime",
+  "icon": {
+
+    "imageName": "book",
+    "url": "http://localhost:8080/icon-directory/book.png"
+  },
+  "message": "any"
+},{
+  "isSelected": false,
+  "category": {
+
+    "categoryName": "Emotional",
+    "description": "It contains all the habits to promote your hobbies and relationships with others."
+  },
+  "name": "Talk with a Friend",
+  "count": 0,
+  "goal": "min",
+  "frequency": "Daily",
+  "timeRange": "Anytime",
+  "icon": {
+
+    "imageName": "conversation",
+    "url": "http://localhost:8080/icon-directory/conversation.png"
+  },
+  "message": "any"
+},{
+  "isSelected": false,
+  "category": {
+
+    "categoryName": "Emotional",
+    "description": "It contains all the habits to promote your hobbies and relationships with others."
+  },
+  "name": "Call Parents",
+  "count": 0,
+  "goal": "min",
+  "frequency": "Daily",
+  "timeRange": "Anytime",
+  "icon": {
+
+    "imageName": "social-media",
+    "url": "http://localhost:8080/icon-directory/social-media.png"
+  },
+  "message": "any"
+},{
+  "isSelected": false,
+  "category": {
+
+    "categoryName": "Emotional",
+    "description": "It contains all the habits to promote your hobbies and relationships with others."
+  },
+  "name": "Listen Music",
+  "count": 0,
+  "goal": "min",
+  "frequency": "Daily",
+  "timeRange": "Anytime",
+  "icon": {
+
+    "imageName": "music",
+    "url": "http://localhost:8080/icon-directory/music.png"
+  },
+  "message": "any"
+},{
+  "isSelected": false,
+  "category": {
+
+    "categoryName": "Others",
+    "description": "It contains customs habits"
+  },
+  "name": "Track Expenses",
+  "count": 0,
+  "goal": "min",
+  "frequency": "Daily",
+  "timeRange": "Anytime",
+  "icon": {
+
+    "imageName": "receipt",
+    "url": "http://localhost:8080/icon-directory/receipt.png"
+  },
+  "message": "any"
+},{
+  "isSelected": false,
+  "category": {
+
+    "categoryName": "Others",
+    "description": "It contains customs habits"
+  },
+  "name": "Eat Fruit",
+  "count": 0,
+  "goal": "min",
+  "frequency": "Daily",
+  "timeRange": "Anytime",
+  "icon": {
+
+    "imageName": "citrus-fruit",
+    "url": "http://localhost:8080/icon-directory/citrus-fruit.png"
+  },
+  "message": "any"
+},{
+  "isSelected": false,
+  "category": {
+
+    "categoryName": "Others",
+    "description": "It contains customs habits"
+  },
+  "name": "Read",
+  "count": 0,
+  "goal": "min",
+  "frequency": "Daily",
+  "timeRange": "Anytime",
+  "icon": {
+
+    "imageName": "read (1)",
+    "url": "http://localhost:8080/icon-directory/read (1).png"
+  },
+  "message": "any"
+},{
+  "isSelected": false,
+  "category": {
+
+    "categoryName": "Emotional",
+    "description": "It contains all the habits to promote your hobbies and relationships with others."
+  },
+  "name": "Pet your bestie",
+  "count": 0,
+  "goal": "min",
+  "frequency": "Daily",
+  "timeRange": "Anytime",
+  "icon": {
+
+    "imageName": "bff (3)",
+    "url": "http://localhost:8080/icon-directory/bff (3).png"
+  },
+  "message": "any"
+}]

@@ -1,31 +1,42 @@
 import "moment";
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
+
+import { useHistory, useParams, useLocation } from "react-router-dom";
 import { MainWrapper, FormWrapper, IconSize } from "../styled/StyledComponents";
-import { useStyles, materialTheme } from "../styled/materialUI-Modal";
+import {
+  useStyles,
+  materialTheme,
+  PurpleSwitch,
+} from "../styled/materialUI-Modal";
 
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 
-import {
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
+import { KeyboardDatePicker } from "@material-ui/pickers";
 
 import { ThemeProvider } from "@material-ui/styles";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 import Header from "../components/Header";
 import CustomSelect from "../components/CustomSelect";
 import IconModal from "../components/IconModal";
 import CustomModal from "../components/CustomModal";
-import { formDataSelected } from "../helpers/Fetch-API";
-
-import { DatePicker } from "react-rainbow-components";
+import {
+  formDataSelected,
+  createCustomHabit,
+  findDefaultHabits,
+  findHabit
+} from "../helpers/Fetch-API";
 
 const tableNames = ["category", "goal", "frequency", "timeRange"];
 
 const CustomHabit = () => {
+  const accessToken = useSelector((store) => store.user.accessToken);
+  const params = useParams();
   const classes = useStyles();
   const history = useHistory();
+  const location = useLocation();
 
   const [habitName, setHabitName] = useState("");
   const [count, setCount] = useState("");
@@ -41,8 +52,12 @@ const CustomHabit = () => {
   const [iconSelected, setIconSelected] = useState(null);
   const [displayIconModal, setDisplayIconModal] = useState(false);
 
-  const [startate, setStartDate] = useState();
-  const [endtate, setEndDate] = useState();
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+
+  const [toggleButton, setToggleButton] = useState({
+    checkedA: false,
+  });
 
   const onSelectIcon = (icon) => {
     setDisplayIconModal(false);
@@ -98,119 +113,229 @@ const CustomHabit = () => {
     });
   };
 
+  const fetchCustomHabit = async (id) => {
+    const habitFetched = await findDefaultHabits({id, accessToken});
+
+    if (habitFetched) {
+      setHabitName(habitFetched.name);
+      setCount(habitFetched.count);
+      setMessage(habitFetched.message);
+      setCategory(habitFetched.category.categoryName);
+      setGoal(habitFetched.goal);
+      setFrequency(habitFetched.frequency);
+      setTime(habitFetched.timeRange);
+      setIconSelected(habitFetched.icon);
+      setStartDate(habitFetched.startedDate);
+      if(habitFetched.endingDate){
+        setToggleButton({
+          ...toggleButton,
+          ["checkedA"]: true,
+        });
+        setEndDate(habitFetched.endingDate)
+      }
+    }
+  };
+
+  const fetchHabit = async (id) => {
+/*     const habitFetched = await findHabit({id, accessToken});
+
+    if (habitFetched) {
+      setHabitName(habitFetched.name);
+      setCount(habitFetched.count);
+      setMessage(habitFetched.message);
+      setCategory(habitFetched.category.categoryName);
+      setGoal(habitFetched.goal);
+      setFrequency(habitFetched.frequency);
+      setTime(habitFetched.timeRange);
+      setIconSelected(habitFetched.icon);
+      setStartDate(habitFetched.startedDate);
+      if(habitFetched.endingDate){
+        setToggleButton({
+          ...toggleButton,
+          ["checkedA"]: true,
+        });
+        setEndDate(habitFetched.endingDate)
+      }
+    } */
+  };
+
+  const onCreateHabit = async () => {
+    const editCustom = location.pathname.search("update");
+    if(editCustom > -1){
+      console.log("UPDATING")
+    }else{
+      const { habitCreated } = await createCustomHabit({
+        accessToken,
+        category,
+        name: habitName,
+        count,
+        goal,
+        frequency,
+        timeRange: time,
+        icon: iconSelected.imageName,
+        message,
+        startedDate: startDate,
+        endingDate: endDate,
+      });
+      if (habitCreated) {
+        history.push("/home")
+      } else {
+        //
+      }
+
+    }
+  };
+
+  const handleChangeToggle = (event) => {
+    setToggleButton({
+      ...toggleButton,
+      [event.target.name]: event.target.checked,
+    });
+  };
+
   useEffect(() => {
     fetchTable();
   }, []);
 
+  useEffect(() => {
+    const editCustom = location.pathname.search("edit");
+    if (params.id) {
+      if (editCustom > -1) {
+        fetchCustomHabit(params.id);
+      } else {
+        fetchHabit(params.id)
+      }
+    }
+  }, [params, location]);
+
   return (
-      <ThemeProvider theme={materialTheme}>
+    <ThemeProvider theme={materialTheme}>
+      <MainWrapper>
+        <Header title="Custom Habits" leftOnClick={history.goBack} />
+        <Button
+          variant="contained"
+          className={classes.submit}
+          onClick={() => setDisplayIconModal(true)}
+        >
+          Choose Icon
+        </Button>
+        <CustomModal
+          open={displayIconModal}
+          handleClose={() => setDisplayIconModal(false)}
+        >
+          <IconModal onSelectIcon={onSelectIcon} />
+        </CustomModal>
+        {iconSelected && (
+          <IconSize src={iconSelected?.url} alt={iconSelected?.name} />
+        )}
 
-    <MainWrapper>
-      <Header title="Custom Habits" leftOnClick={history.goBack} />
-      <Button
-        variant="contained"
-        className={classes.submit}
-        onClick={() => setDisplayIconModal(true)}
-      >
-        Choose Icon
-      </Button>
-      <CustomModal
-        open={displayIconModal}
-        handleClose={() => setDisplayIconModal(false)}
-      >
-        <IconModal onSelectIcon={onSelectIcon} />
-      </CustomModal>
-      {iconSelected && (
-        <IconSize src={iconSelected?.url} alt={iconSelected?.name} />
-      )}
-
-      <TextField
-        onChange={(e) => setHabitName(e.target.value)}
-        value={habitName}
-        label="Name"
-      />
-      <FormWrapper className={classes.form}>
-        <CustomSelect
-          items={categoryData}
-          selectedValue={category}
-          onChangeValue={setCategory}
-          tableName={"Category"}
-        />
-        <div style={{ width: "95%", fontStyle: "oblique", color: "#737373" }}>
-          {category &&
-            categoryData.find((item) => item.value === category)?.description}
-        </div>
-      </FormWrapper>
-
-      <FormWrapper
-        className={classes.goalForm}
-        style={{ flexDirection: "row", justifyContent: "space-between" }}
-      >
         <TextField
-          style={{ width: "50%" }}
-          onChange={(e) => setCount(e.target.value)}
-          value={count}
-          label="Count "
-          helperText="expressed in number your goal"
+          onChange={(e) => setHabitName(e.target.value)}
+          value={habitName}
+          label="Name"
         />
-        <CustomSelect
-          style={{ width: "50%" }}
-          items={goalData}
-          selectedValue={goal}
-          onChangeValue={setGoal}
-          tableName={"Goal"}
-        />
-      </FormWrapper>
+        <FormWrapper className={classes.form}>
+          <CustomSelect
+            items={categoryData}
+            selectedValue={category}
+            onChangeValue={setCategory}
+            tableName={"Category"}
+          />
+          <div style={{ width: "95%", fontStyle: "oblique", color: "#737373" }}>
+            {category &&
+              categoryData.find((item) => item.value === category)?.description}
+          </div>
+        </FormWrapper>
 
-      <FormWrapper>
-        <CustomSelect
-          items={frequencyData}
-          selectedValue={frequency}
-          onChangeValue={setFrequency}
-          tableName={"Frequency"}
-        />
-        <CustomSelect
-          items={timeData}
-          selectedValue={time}
-          onChangeValue={setTime}
-          tableName={"Time Range"}
-        />
-        <TextField
-          style={{ width: "95%", marginTop: "10px" }}
-          onChange={(e) => setMessage(e.target.value)}
-          value={message}
-          label="message"
-        />
+        <FormWrapper
+          className={classes.goalForm}
+          style={{ flexDirection: "row", justifyContent: "space-between" }}
+        >
+          <TextField
+            style={{ width: "50%" }}
+            onChange={(e) => setCount(e.target.value)}
+            value={count}
+            label="Count "
+            helperText="expressed in number your goal"
+          />
+          <CustomSelect
+            style={{ width: "50%" }}
+            items={goalData}
+            selectedValue={goal}
+            onChangeValue={setGoal}
+            tableName={"Goal"}
+          />
+        </FormWrapper>
 
-        <KeyboardDatePicker
-          margin="normal"
-          id="date-picker-dialog"
-          label="Date picker dialog"
-          format="MM/DD/YYYY"
-          value={startate}
-          onChange={setStartDate}
-          KeyboardButtonProps={{
-            "aria-label": "change date",
-          }}
-        />
-        <KeyboardDatePicker
-          margin="normal"
-          id="date-picker-dialog"
-          label="Date picker dialog"
-          format="MM/DD/YYYY"
-          value={endtate}
-          minDate={startate}
-          onChange={setEndDate}
-          KeyboardButtonProps={{
-            "aria-label": "change date",
-          }}
-          disabled={startate ? false : true}
-        />
+        <FormWrapper>
+          <CustomSelect
+            items={frequencyData}
+            selectedValue={frequency}
+            onChangeValue={setFrequency}
+            tableName={"Frequency"}
+          />
+          <CustomSelect
+            items={timeData}
+            selectedValue={time}
+            onChangeValue={setTime}
+            tableName={"Time Range"}
+          />
+          <TextField
+            style={{ width: "95%", marginTop: "10px" }}
+            onChange={(e) => setMessage(e.target.value)}
+            value={message}
+            label="message"
+          />
 
-      </FormWrapper>
-    </MainWrapper>
+          <KeyboardDatePicker
+            margin="normal"
+            id="date-picker-dialog"
+            label="Date picker dialog"
+            format="MM/DD/YYYY"
+            value={startDate}
+            onChange={setStartDate}
+            minDate={new Date()}
+            KeyboardButtonProps={{
+              "aria-label": "change date",
+            }}
+          />
+          <FormControlLabel
+            control={
+              <PurpleSwitch
+                checked={toggleButton.checkedA}
+                onChange={handleChangeToggle}
+                name="checkedA"
+              />
+            }
+            label="Has end date"
+          />
+          {toggleButton.checkedA && (
+            <KeyboardDatePicker
+              margin="normal"
+              id="date-picker-dialog"
+              label="Date picker dialog"
+              format="MM/DD/YYYY"
+              value={endDate}
+              minDate={startDate}
+              onChange={setEndDate}
+              KeyboardButtonProps={{
+                "aria-label": "change date",
+              }}
+              disabled={startDate ? false : true}
+            />
+          )}
+
+          <Button
+            variant="contained"
+            className={classes.submit}
+            onClick={onCreateHabit}
+            style={{ width: "95%", alignSelf: "center" }}
+          >
+            SAVE
+          </Button>
+        </FormWrapper>
+      </MainWrapper>
     </ThemeProvider>
-
   );
 };
 export default CustomHabit;

@@ -1,6 +1,7 @@
 const mongoose = require("mongoose")
+const dataDefaultHabits = require("../../DefaultHabits.json")
 
-const Habit = mongoose.model('habit',{
+const DefaulHabit = mongoose.model('DefaultHabit',{
     category:{
         type: mongoose.Schema.Types,
         ref: 'Category'
@@ -26,18 +27,31 @@ const Habit = mongoose.model('habit',{
         type: mongoose.Schema.Types,
         ref: 'Icon'
     },
-    isActive: {
+    isSelected: {
         type: Boolean,
-        default: true
+        default: false
     },
-    startedDate: Date,
+    startedDate:{
+        type: Date,
+        default: new Date
+    },
     endingDate: Date,
-    userId: {
-        type: mongoose.Schema.Types,
-        ref: 'User'
-    }
 })
-module.exports = Habit;
+
+if (process.env.RESET_DB) {
+	const seedDefaultHabitDatabase = async () => {
+    await DefaulHabit.deleteMany({})
+
+    dataDefaultHabits.forEach((habitsData) => {
+			new DefaulHabit(habitsData).save()
+		})
+  }
+
+  seedDefaultHabitDatabase()
+} 
+module.exports = DefaulHabit;
+
+
 
 
 

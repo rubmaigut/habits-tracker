@@ -55,3 +55,117 @@ export const formDataSelected = async (tableName) => {
     .then((data) => data)
     .catch((error) => console.log(error));
 };
+
+export const createCustomHabit = async ({
+  accessToken,
+  category,
+  name,
+  count,
+  goal,
+  frequency,
+  timeRange,
+  icon,
+  message,
+  startedDate,
+  endingDate,
+}) => {
+  let CUSTOM_HABIT = "http://localhost:8080/habits";
+
+  let habitCreated;
+  let habitError;
+
+  await fetch(CUSTOM_HABIT, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: accessToken,
+    },
+    body: JSON.stringify({
+      category,
+      name,
+      count,
+      goal,
+      frequency,
+      timeRange,
+      icon,
+      message,
+      startedDate,
+      endingDate,
+    }),
+  })
+    .then((response) => {
+      if (response.status === 400) {
+        habitError = true;
+        habitCreated = false;
+      } else {
+        return response.json();
+      }
+    })
+    .then((json) => {
+      if (json) {
+        habitCreated = true;
+      }
+    })
+    .catch((err) => {
+      console.log("err", err)
+      habitError = true;
+      habitCreated = false;
+    });
+  return {
+    habitError,
+    habitCreated,
+  };
+};
+
+export const defaultHabits = async (accessToken)=>{
+  let DEFAULT_HABIT_URL = "http://localhost:8080/default-habits"
+
+  return fetch(DEFAULT_HABIT_URL,{
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: accessToken,
+    }})
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => data)
+    .catch((error) => console.log(error));
+};
+
+export const findDefaultHabits = async ({accessToken, id})=>{
+  let FIND_DEFAULT_HABIT_URL = `http://localhost:8080/default-habits/${id}`
+  return fetch(FIND_DEFAULT_HABIT_URL,{
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: accessToken,
+    }})
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data)
+      return data
+    })
+    .catch((error) => console.log(error));
+};
+
+
+export const getUserHabits = async ({accessToken})=>{
+  let FIND_USER_HABIT_URL = `http://localhost:8080/habits/user`
+  return fetch(FIND_USER_HABIT_URL,{
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: accessToken,
+    }})
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      return data
+    })
+    .catch((error) => console.log(error));
+};
+

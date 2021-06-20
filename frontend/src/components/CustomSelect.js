@@ -1,4 +1,4 @@
-import React,{ useState } from "react";
+import React,{ useEffect, useState } from "react";
 import { MainWrapper } from "../styled/StyledComponents";
 import { useStyles } from "../styled/materialUI-UserForm";
 
@@ -11,12 +11,17 @@ import Select from "@material-ui/core/Select";
 
 const CustomSelect = ({items=[], selectedValue, onChangeValue, tableName}) => {
     const classes = useStyles();
-    const [value, setValue] = useState(selectedValue);
+    const [value, setValue] = useState("");
   
     const handleChange = (event) => {
         onChangeValue(event.target.value)
         setValue(event.target.value);
     };
+
+  useEffect(()=>{
+    setValue(selectedValue)
+  },[selectedValue])
+
   return (
     <MainWrapper>
       <FormControl required className={classes.form}>

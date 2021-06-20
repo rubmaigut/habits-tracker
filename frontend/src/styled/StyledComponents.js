@@ -31,6 +31,17 @@ export const Wrapper = styled.div`
   background-color: #fff;
   box-shadow: rgb(0 0 0 / 25%) 0px 2px 4px 0px;
 `
+export const HabitCard = styled.div`
+  width: 95%;
+  height: 50px;
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  box-shadow: rgb(0 0 0 / 25%) 0px 2px 4px 0px;
+  border-radius: 10px;
+`
 export const HeaderBox1 = styled.div`
   width: 15%;
   height: 100%;
@@ -104,4 +115,11 @@ export const IconSize = styled.img`
   width: 40px;
   height: 40px;
   margin: 8px;
+`
+
+export const HabitInnerWrapper = styled.div`
+  width: auto;
+  height: 100%;
+  display: flex;
+  align-items: center;
 `
