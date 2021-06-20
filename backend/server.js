@@ -1,4 +1,4 @@
-require('dotenv').config()
+require("dotenv").config();
 const express = require("express");
 const session = require("express-session");
 const cors = require("cors");
@@ -10,11 +10,12 @@ const mongoose = require("mongoose");
 const User = require("./models/user-model");
 const Habit = require("./models/habits-model");
 const HabitDone = require("./models/tracker-model");
+const DefaulHabit = require("./models//No-Editable-model/Default-habits-model");
 const Icon = require("./models/No-Editable-model/icons-mode");
-const Category = require('./models/No-Editable-model/category-model');
-const Goal = require('./models/No-Editable-model/goal-model');
-const Frequency = require('./models/No-Editable-model/frequency-model');
-const TimeRange = require('./models/No-Editable-model/timeRange-model');
+const Category = require("./models/No-Editable-model/category-model");
+const Goal = require("./models/No-Editable-model/goal-model");
+const Frequency = require("./models/No-Editable-model/frequency-model");
+const TimeRange = require("./models/No-Editable-model/timeRange-model");
 
 require("./models/No-Editable-model/category-model");
 require("./models/No-Editable-model/goal-model");
@@ -38,7 +39,11 @@ const successLoginUrl = `${process.env.FE_URL}/login/success`;
 const errorLoginUrl = `${process.env.FE_URL}/login/error`;
 
 const isLoggedIn = (req, res, next) => {
-  req.user ? next() : res.sendStatus(401).send("You must be logged in");
+  const { headers } = req;
+
+  req.user || headers.authorization
+    ? next()
+    : res.sendStatus(401).send("You must be logged in");
 };
 const publicDir = require("path").join(__dirname, "/public/assets");
 
@@ -112,14 +117,49 @@ app.post("/user/new/signup", async (req, res) => {
 /**** USER MODEL - END *****/
 
 /**** HABIT MODEL  ****/
+app.get("/default-habits", isLoggedIn, async (req, res) => {
+  const defaultHabits = await DefaulHabit.find({});
+  res.json(defaultHabits);
+});
+
+app.get("/default-habits/:id", isLoggedIn, async (req, res) => {
+  const { id } = req.params;
+  const defaultHabits = await DefaulHabit.findById(id);
+  res.json(defaultHabits);
+});
+
+app.get("/habit/:id", isLoggedIn, async (req, res) => {
+  const { id } = req.params;
+  const defaultHabits = await Habit.findById(id);
+  res.json(defaultHabits);
+});
+
+app.get("/habits/user", isLoggedIn, async (req, res) => {
+  const {
+    headers: { authorization },
+  } = req;
+
+  const user = await User.findOne({ accessToken: authorization });
+
+  const habitsByuser = await Habit.find({ userId: user._id });
+
+  res.json(habitsByuser);
+});
+
 app.post("/habits", isLoggedIn, async (req, res) => {
-  const { name, message, count, startedDate, endingDate } = req.body;
+  const {
+    body: { name, message, count, startedDate, endingDate },
+    headers,
+  } = req;
 
   try {
+    const user = await User.findOne({
+      accessToken: headers.authorization,
+    });
     const selectCategory = await Category.findOne({
       categoryName: req.body.category,
     });
-    const selectGoal = await Goal.findOne({ unitName: req.body.goal });
+    const selectGoal = await Goal.findOne({ symbol: req.body.goal });
 
     const selectFrequency = await Frequency.findOne({
       frequencyName: req.body.frequency,
@@ -132,7 +172,8 @@ app.post("/habits", isLoggedIn, async (req, res) => {
       selectCategory.categoryName &&
       selectGoal.unitName &&
       selectFrequency.frequencyName &&
-      selectTimeRange.timeRangeName
+      selectTimeRange.timeRangeName &&
+      user
     ) {
       await new Habit({
         category: selectCategory,
@@ -145,6 +186,7 @@ app.post("/habits", isLoggedIn, async (req, res) => {
         message,
         startedDate,
         endingDate,
+        userId: user._id,
       }).save((error) => {
         Habit.findOne({})
           .sort({ _id: -1 })
@@ -216,7 +258,6 @@ app.post("/habit/done/:id", isLoggedIn, async (req, res) => {
 
   const habitSelected = await Habit.findOne({ _id: id });
 
-  console.log("validation", habitSelected.isSelected);
   if (habitSelected.isSelected === true) {
     await new HabitDone({
       habitId: habitSelected._id,
