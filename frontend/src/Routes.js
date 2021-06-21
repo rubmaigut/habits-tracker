@@ -31,7 +31,7 @@ const Routes = () => {
             <Route exact path="/custom-habits/edit/:id">
               <CustomHabit/>
             </Route>
-            <Route exact path="/habits/update/:id">
+            <Route exact path="/habit/update/:id">
               <CustomHabit/>
             </Route>
             <Redirect to="/home" />

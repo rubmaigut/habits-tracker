@@ -42,6 +42,17 @@ export const HabitCard = styled.div`
   box-shadow: rgb(0 0 0 / 25%) 0px 2px 4px 0px;
   border-radius: 10px;
 `
+export const TrackerHabitInfo = styled.div`
+  width: 35%;
+  height: 50px;
+  margin: 5px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #fff;
+  box-shadow: rgb(0 0 0 / 25%) 0px 2px 4px 0px;
+  border-radius: 10px;
+`
 export const HeaderBox1 = styled.div`
   width: 15%;
   height: 100%;
@@ -56,6 +67,17 @@ export const HeaderBox2 = styled.div`
   justify-content: center;
   align-items: center;
 `;
+export const BorderStyle = styled.div`
+  width: 100%;
+  height: 35px;
+  background: linear-gradient(45deg, #fe6b8b 30%, #ff8e53 90%);
+`;
+export const HabitInnerWrapper = styled.div`
+  width: auto;
+  height: 100%;
+  display: flex;
+  align-items: center;
+`
 export const Title = styled.h1`
   font-weight: bold;
   margin-top: 10px;
@@ -67,11 +89,6 @@ export const Subtitle = styled.h3`
 `;
 export const Paragraph = styled.p`
   color: #737373;
-`;
-export const BorderStyle = styled.div`
-  width: 100%;
-  height: 35px;
-  background: linear-gradient(45deg, #fe6b8b 30%, #ff8e53 90%);
 `;
 export const FormWrapper = styled.form`
   width: 95%;
@@ -97,6 +114,12 @@ export const GoogleIcon = styled.img`
   height: 30px;
   padding: 10px;
 `;
+export const IconSize = styled.img`
+  width: 40px;
+  height: 40px;
+  margin: 8px;
+`;
+
 export const HeaderIconButton = styled.a`
   width: 100%;
   height: 100%;
@@ -111,15 +134,6 @@ export const CustomHabit = styled.a`
   justify-content: center;
   align-items: center;
 `;
-export const IconSize = styled.img`
-  width: 40px;
-  height: 40px;
-  margin: 8px;
-`
 
-export const HabitInnerWrapper = styled.div`
-  width: auto;
-  height: 100%;
-  display: flex;
-  align-items: center;
-`
+
+

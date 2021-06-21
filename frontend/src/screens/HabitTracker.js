@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { MainWrapper } from "../styled/StyledComponents";
-import Header from "../components/Header";
-import { getUserHabits } from "../helpers/Fetch-API";
 import { useSelector } from "react-redux";
-import DefaultHabit from "../components/DefaultHabit";
+
+import { getUserHabits } from "../helpers/Fetch-API";
+
+import { MainWrapper } from "../styled/StyledComponents";
+import TrackerBody from "../components/TrackerBody";
+import HabitScreenHeader from "../components/TrackerHeader"
 
 const YourHabits = () => {
   const history = useHistory();
@@ -25,20 +27,18 @@ const YourHabits = () => {
 
   return (
     <MainWrapper>
-      <Header
-        title="Your Habits"
-        rightOnClick={() => history.push("/add-habits")}
-        icon="addCircleIcon"
+      <HabitScreenHeader
+        title1="Weekly"
+        title2="Monthly"
+        title3="Yearly"
       />
         {habistList.length ?
           habistList.map((habit) => (
-            <DefaultHabit
+            <TrackerBody
               key={habit._id}
               iconUrl={habit.icon?.url || null}
               name={habit.name}
-              count={habit.count}
-              goal={habit.goal}
-              onClicK={() => history.push(`/habit/update/${habit._id}`)}
+              onClicK={() => null}
             />
           )): null}
     </MainWrapper>

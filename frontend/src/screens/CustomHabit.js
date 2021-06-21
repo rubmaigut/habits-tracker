@@ -26,7 +26,8 @@ import {
   formDataSelected,
   createCustomHabit,
   findDefaultHabits,
-  findHabit
+  findHabit,
+  updateYourHabit,
 } from "../helpers/Fetch-API";
 
 const tableNames = ["category", "goal", "frequency", "timeRange"];
@@ -114,7 +115,7 @@ const CustomHabit = () => {
   };
 
   const fetchCustomHabit = async (id) => {
-    const habitFetched = await findDefaultHabits({id, accessToken});
+    const habitFetched = await findDefaultHabits({ id, accessToken });
 
     if (habitFetched) {
       setHabitName(habitFetched.name);
@@ -126,18 +127,18 @@ const CustomHabit = () => {
       setTime(habitFetched.timeRange);
       setIconSelected(habitFetched.icon);
       setStartDate(habitFetched.startedDate);
-      if(habitFetched.endingDate){
+      if (habitFetched.endingDate) {
         setToggleButton({
           ...toggleButton,
           ["checkedA"]: true,
         });
-        setEndDate(habitFetched.endingDate)
+        setEndDate(habitFetched.endingDate);
       }
     }
   };
 
   const fetchHabit = async (id) => {
-/*     const habitFetched = await findHabit({id, accessToken});
+    const habitFetched = await findHabit({ id, accessToken });
 
     if (habitFetched) {
       setHabitName(habitFetched.name);
@@ -149,21 +150,37 @@ const CustomHabit = () => {
       setTime(habitFetched.timeRange);
       setIconSelected(habitFetched.icon);
       setStartDate(habitFetched.startedDate);
-      if(habitFetched.endingDate){
+      if (habitFetched.endingDate) {
         setToggleButton({
           ...toggleButton,
           ["checkedA"]: true,
         });
-        setEndDate(habitFetched.endingDate)
+        setEndDate(habitFetched.endingDate);
       }
-    } */
+    }
   };
 
   const onCreateHabit = async () => {
     const editCustom = location.pathname.search("update");
-    if(editCustom > -1){
-      console.log("UPDATING")
-    }else{
+    if (editCustom > -1) {
+      const { updateHabit } = await updateYourHabit({
+        accessToken,
+        category,
+        name: habitName,
+        count,
+        goal,
+        frequency,
+        timeRange: time,
+        icon: iconSelected.imageName,
+        message,
+        startedDate: startDate,
+        endingDate: endDate,
+        id: params.id,
+      });
+      if (updateHabit) {
+        history.push("/home");
+      }
+    } else {
       const { habitCreated } = await createCustomHabit({
         accessToken,
         category,
@@ -178,11 +195,10 @@ const CustomHabit = () => {
         endingDate: endDate,
       });
       if (habitCreated) {
-        history.push("/home")
+        history.push("/home");
       } else {
         //
       }
-
     }
   };
 
@@ -203,7 +219,7 @@ const CustomHabit = () => {
       if (editCustom > -1) {
         fetchCustomHabit(params.id);
       } else {
-        fetchHabit(params.id)
+        fetchHabit(params.id);
       }
     }
   }, [params, location]);

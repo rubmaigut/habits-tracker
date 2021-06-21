@@ -6,6 +6,7 @@ const crypto = require("crypto");
 const bycrypt = require("bcrypt");
 const passport = require("passport");
 const mongoose = require("mongoose");
+const ObjectId = require("mongodb").ObjectID;
 
 const User = require("./models/user-model");
 const Habit = require("./models/habits-model");
@@ -16,6 +17,7 @@ const Category = require("./models/No-Editable-model/category-model");
 const Goal = require("./models/No-Editable-model/goal-model");
 const Frequency = require("./models/No-Editable-model/frequency-model");
 const TimeRange = require("./models/No-Editable-model/timeRange-model");
+const { response } = require("express");
 
 require("./models/No-Editable-model/category-model");
 require("./models/No-Editable-model/goal-model");
@@ -179,7 +181,7 @@ app.post("/habits", isLoggedIn, async (req, res) => {
         category: selectCategory,
         name,
         count,
-        goal: selectGoal.unitName,
+        goal: selectGoal.symbol,
         frequency: selectFrequency.frequencyName,
         timeRange: selectTimeRange.timeRangeName,
         icon: selectIcon,
@@ -202,53 +204,54 @@ app.post("/habits", isLoggedIn, async (req, res) => {
   }
 });
 
-app.put("/habits/update/:id", isLoggedIn, async (req, res) => {
+app.put("/habit/update/:id", isLoggedIn, async (req, res) => {
   const { id } = req.params;
-  const { name, message, count, startedDate, endingDate, isSelected } =
-    req.body;
-  const options = { returnNewDocument: true, returnOriginal: false };
 
-  try {
-    const selectCategory = await Category.findOne({
-      categoryName: req.body.category,
-    });
-    const selectGoal = await Goal.findOne({ unitName: req.body.goal });
-    const selectFrequency = await Frequency.findOne({
-      frequencyName: req.body.frequency,
-    });
-    const selectTimeRange = await TimeRange.findOne({
-      timeRangeName: req.body.timeRange,
-    });
-    const selectIcon = await Icon.findOne({ imageName: req.body.icon });
+  const {
+    body: { name, message, count, startedDate, endingDate },
+  } = req;
 
-    const update = {
-      $set: {
-        category: selectCategory,
-        name,
-        count,
-        goal: selectGoal.unitName,
-        frequency: selectFrequency.frequencyName,
-        timeRange: selectTimeRange.timeRangeName,
-        icon: selectIcon,
-        message,
-        startedDate,
-        endingDate,
-        isSelected,
-      },
-    };
+  const selectCategory = await Category.findOne({
+    categoryName: req.body.category,
+  });
+  const selectGoal = await Goal.findOne({ symbol: req.body.goal });
+  const selectFrequency = await Frequency.findOne({
+    frequencyName: req.body.frequency,
+  });
+  const selectTimeRange = await TimeRange.findOne({
+    timeRangeName: req.body.timeRange,
+  });
+  const selectIcon = await Icon.findOne({ imageName: req.body.icon });
+  const update = await {
+    $set: {
+      category: selectCategory,
+      name,
+      count,
+      goal: selectGoal.symbol,
+      frequency: selectFrequency.frequencyName,
+      timeRange: selectTimeRange.timeRangeName,
+      icon: selectIcon,
+      message,
+      startedDate,
+      endingDate,
+    },
+  };
 
-    if (
-      selectCategory.categoryName &&
-      selectGoal.unitName &&
-      selectFrequency.frequencyName &&
-      selectTimeRange.timeRangeName
-    ) {
-      await Habit.findOneAndUpdate(id, update, options).then(() => {
-        res.json(update);
+  if (
+    selectCategory.categoryName &&
+    selectGoal.unitName &&
+    selectFrequency.frequencyName &&
+    selectTimeRange.timeRangeName
+  ) {
+    await Habit.findByIdAndUpdate(id, update, {useFindAndModify: false})
+      .then((subscriber) => {
+        res.json(subscriber)
+      })
+      .catch((error) => {
+        console.log(`Error updating subscriber by ID: ${error.message}`);
+        res.status(400).json(error);
       });
-    }
-  } catch (error) {
-    res.status(400).json(error);
+      
   }
 });
 

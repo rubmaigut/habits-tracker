@@ -7,6 +7,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import PersonPinIcon from "@material-ui/icons/PersonPin";
 import { MainWrapper } from "../styled/StyledComponents";
 import YourHabits from "./YourHabits";
+import HabitTracker from "./HabitTracker"
 import { TabPanel } from "../components/TabPanel";  
 
 function a11yProps(index) {
@@ -45,7 +46,7 @@ const Home = () => {
         <YourHabits />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item two
+        <HabitTracker/>
       </TabPanel>
       <TabPanel value={value} index={2}>
         Item three
