@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   HabitCard,
   GoogleIcon,
   Paragraph,
   HabitInnerWrapper,
 } from "../styled/StyledComponents";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 const DefaultHabit = ({
   iconUrl,
@@ -13,24 +12,32 @@ const DefaultHabit = ({
   onClicK,
   count,
   goal,
-  hasOptions,
-  onClickOptions,
+  showProgress
 }) => {
+  const [progress, setProgress] = useState(0);
+
+  const renderProgressPercent = () => {
+    setProgress(showProgress);
+  };
+
+  useEffect(() => {
+    renderProgressPercent();
+  }, []);
+
   return (
     <HabitCard
       onClick={onClicK}
       style={{ justifyContent: "space-between", padding: "0px 15px" }}
     >
-      <HabitInnerWrapper>
+      <HabitInnerWrapper >
         <GoogleIcon src={iconUrl} style={{ padding: "0px" }} />
         <Paragraph style={{ marginLeft: "10px" }}>{name}</Paragraph>
       </HabitInnerWrapper>
       {count && goal && (
-        <HabitInnerWrapper>
-          <Paragraph>{`${count} ${goal}`}</Paragraph>
-          {hasOptions && (
-            <MoreVertIcon style={{ marginLeft: 8 }} onClick={onClickOptions} />
-          )}
+        <HabitInnerWrapper  >
+          <HabitInnerWrapper style={{margin:"10px", textAlign: "start"}}>
+            <Paragraph>{`${count} ${goal}`}</Paragraph>
+          </HabitInnerWrapper>
         </HabitInnerWrapper>
       )}
     </HabitCard>

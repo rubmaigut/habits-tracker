@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { getUserHabits } from "../helpers/Fetch-API";
@@ -16,14 +15,13 @@ import { MainWrapper } from "../styled/StyledComponents";
 
 
 const YourHabits = () => {
-  const history = useHistory();
   const classes = tabUseStyles();
   const accessToken = useSelector((store) => store.user.accessToken);
 
   const [habistList, setHabitsList] = useState([]);
   const [value, setValue] = useState(0);
 
-  function a11yProps(index) {
+  const a11yProps=(index) =>{
     return {
       id: `simple-tab-${index}`,
       "aria-controls": `simple-tabpanel-${index}`,

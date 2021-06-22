@@ -99,6 +99,8 @@ export const Subtitle = styled.h3`
 `;
 export const Paragraph = styled.p`
   color: #737373;
+  text-align: start;
+
 `;
 export const FormWrapper = styled.form`
   width: 95%;

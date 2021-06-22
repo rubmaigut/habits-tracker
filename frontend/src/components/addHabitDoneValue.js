@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { MainWrapper } from "../styled/StyledComponents";
 import TextField from "@material-ui/core/TextField";
-import MenuItem from "@material-ui/core/MenuItem";
 
 import { fetchGoal, IsHabitDone} from "../helpers/Fetch-API";
 
-const AddHabitValue = ({id}) => {
+const AddHabitValue = ({id, habitGoal, refresh}) => {
   const accessToken = useSelector((store) => store.user.accessToken);
   const [count, setCount] = useState("");
-  const [goal, setGoal] = useState("");
+
   const [goalData, setGoalData] = useState([]);
 
   const fetchingGoal = async () => {
@@ -23,12 +22,13 @@ const AddHabitValue = ({id}) => {
       id,
       accessToken,
       count,
-      goal,
+      goal: habitGoal
     });
 
     if (habitDoneSaved){
-     <p>your goal was saved</p>
+      refresh()
     }
+  
   };
 
   useEffect(() => {
@@ -50,19 +50,7 @@ const AddHabitValue = ({id}) => {
         value={count}
         label="Count"
       />
-      <TextField
-        select
-        style={{ width: "40%", textAlign: "center" }}
-        onChange={(e) => setGoal(e.target.value)}
-        value={goal}
-        label="goal"
-      >
-        {goalData.map((option) => (
-          <MenuItem key={option._id} value={option.symbol}>
-            {option.symbol}
-          </MenuItem>
-        ))}
-      </TextField>
+      <p>{habitGoal}</p>
 
         <button
         onClick={()=>onSaveProgressDoned()}> save</button>

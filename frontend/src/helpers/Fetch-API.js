@@ -262,8 +262,24 @@ export const fetchGoal = async () => {
     .catch((error) => console.log(error));
 };
 
+export const fetchHabitByDay = async ({accessToken}) => {
+  let HABIT_DONED = "http://localhost:8080/done-by-date";
+
+  return fetch(HABIT_DONED,{
+    method:'GET',
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: accessToken,
+    },
+  }).then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => console.log(error));
+};
 export const IsHabitDone = async ({ accessToken, id, count, goal }) => {
-  console.log({ accessToken, id, count, goal });
   let DONE_HABIT = `http://localhost:8080/done/update/${id}`;
 
   let habitDoneSaved;

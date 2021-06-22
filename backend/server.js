@@ -16,6 +16,7 @@ const Category = require("./models/No-Editable-model/category-model");
 const Goal = require("./models/No-Editable-model/goal-model");
 const Frequency = require("./models/No-Editable-model/frequency-model");
 const TimeRange = require("./models/No-Editable-model/timeRange-model");
+const { response } = require("express");
 
 require("./models/No-Editable-model/category-model");
 require("./models/No-Editable-model/goal-model");
@@ -251,7 +252,6 @@ app.put("/habit/update/:id", isLoggedIn, async (req, res) => {
       });
   }
 });
-
 app.post("/done/update/:id", isLoggedIn, async (req, res) => {
   const { id } = req.params;
   const { countDone } = req.body;
@@ -316,13 +316,29 @@ app.post("/done/update/:id", isLoggedIn, async (req, res) => {
             console.log(`Error updating subscriber by ID: ${error.message}`);
             res.status(400).json(error);
           });
-      }else{
-        res.status(400).json({error:"error"})
+      } else {
+        res.status(400).json({ error: "error" });
       }
     }
   } catch (error) {
-    res.status(400).json(error.message);
+    res.status(400).json(error);
   }
+});
+
+app.get("/done-by-date", async (req, res) => {
+  const {date = new Date()}= req.params
+
+  const today = new Date(date).toLocaleString().split(', ')[0]
+  
+  let finalDate = new Date();
+  finalDate.setSeconds(59)
+  finalDate.setMinutes(59);
+  finalDate.setHours(23);
+  
+  const habitDoned = await HabitDone.find({createdAt: {"$gte": new Date(today), "$lt": finalDate}} )
+
+  res.json(habitDoned);
+  console.log(habitDoned)
 });
 
 /**** HABIT MODEL - END ****/
