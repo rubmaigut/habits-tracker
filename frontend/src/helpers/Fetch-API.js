@@ -107,7 +107,7 @@ export const createCustomHabit = async ({
       }
     })
     .catch((err) => {
-      console.log("err", err)
+      console.log("err", err);
       habitError = true;
       habitCreated = false;
     });
@@ -129,9 +129,9 @@ export const updateYourHabit = async ({
   message,
   startedDate,
   endingDate,
-  id
+  id,
 }) => {
-    let UPDATE_HABIT = `http://localhost:8080/habit/update/${id}`;
+  let UPDATE_HABIT = `http://localhost:8080/habit/update/${id}`;
 
   let updateHabit;
   let habitError;
@@ -159,7 +159,7 @@ export const updateYourHabit = async ({
       if (response.status === 400) {
         habitError = true;
         updateHabit = false;
-        console.log('error',response)
+        console.log("error", response);
       } else {
         return response.json();
       }
@@ -170,7 +170,7 @@ export const updateYourHabit = async ({
       }
     })
     .catch((err) => {
-      console.log("err", err)
+      console.log("err", err);
       habitError = true;
       updateHabit = false;
     });
@@ -180,15 +180,16 @@ export const updateYourHabit = async ({
   };
 };
 
-export const defaultHabits = async (accessToken)=>{
-  let DEFAULT_HABIT_URL = "http://localhost:8080/default-habits"
+export const defaultHabits = async (accessToken) => {
+  let DEFAULT_HABIT_URL = "http://localhost:8080/default-habits";
 
-  return fetch(DEFAULT_HABIT_URL,{
+  return fetch(DEFAULT_HABIT_URL, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
       Authorization: accessToken,
-    }})
+    },
+  })
     .then((response) => {
       return response.json();
     })
@@ -196,65 +197,110 @@ export const defaultHabits = async (accessToken)=>{
     .catch((error) => console.log(error));
 };
 
-export const findDefaultHabits = async ({accessToken, id})=>{
-  let FIND_DEFAULT_HABIT_URL = `http://localhost:8080/default-habits/${id}`
-  return fetch(FIND_DEFAULT_HABIT_URL,{
+export const findDefaultHabits = async ({ accessToken, id }) => {
+  let FIND_DEFAULT_HABIT_URL = `http://localhost:8080/default-habits/${id}`;
+  return fetch(FIND_DEFAULT_HABIT_URL, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
       Authorization: accessToken,
-    }})
+    },
+  })
     .then((response) => {
       return response.json();
     })
     .then((data) => {
-      return data
+      return data;
     })
     .catch((error) => console.log(error));
 };
 
-export const findHabit = async ({accessToken, id})=>{
-  let FIND_HABIT_URL = `http://localhost:8080/habit/${id}`
-  return fetch(FIND_HABIT_URL,{
+export const findHabit = async ({ accessToken, id }) => {
+  let FIND_HABIT_URL = `http://localhost:8080/habit/${id}`;
+  return fetch(FIND_HABIT_URL, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
       Authorization: accessToken,
-    }})
+    },
+  })
     .then((response) => {
       return response.json();
     })
     .then((data) => {
-      return data
+      return data;
     })
     .catch((error) => console.log(error));
 };
 
-export const getUserHabits = async ({accessToken})=>{
-  let FIND_USER_HABIT_URL = `http://localhost:8080/habits/user`
-  return fetch(FIND_USER_HABIT_URL,{
+export const getUserHabits = async ({ accessToken }) => {
+  let FIND_USER_HABIT_URL = `http://localhost:8080/habits/user`;
+  return fetch(FIND_USER_HABIT_URL, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
       Authorization: accessToken,
-    }})
+    },
+  })
     .then((response) => {
       return response.json();
     })
     .then((data) => {
-      return data
+      return data;
     })
     .catch((error) => console.log(error));
 };
 
-export const fetchGoal= async()=>{
-  let GOAL_URL ="http://localhost:8080/setup/goal"
+export const fetchGoal = async () => {
+  let GOAL_URL = "http://localhost:8080/setup/goal";
 
   return fetch(GOAL_URL)
-  .then((response) => {
-    return response.json();
-  })
-  .then((data) => data)
-  .catch((error) => console.log(error))
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => data)
+    .catch((error) => console.log(error));
+};
 
-}
+export const IsHabitDone = async ({ accessToken, id, count, goal }) => {
+  console.log({ accessToken, id, count, goal });
+  let DONE_HABIT = `http://localhost:8080/done/update/${id}`;
+
+  let habitDoneSaved;
+  let errorSavedHabit;
+
+  await fetch(DONE_HABIT, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: accessToken,
+    },
+    body: JSON.stringify({
+      countDone: count,
+      goalDone: goal,
+    }),
+  })
+    .then((response) => {
+      if (response.status === 400) {
+        errorSavedHabit = true;
+        habitDoneSaved = false;
+        console.log("response", response);
+      } else {
+        return response.json();
+      }
+    })
+    .then((json) => {
+      if (json) {
+        habitDoneSaved = true;
+      }
+    })
+    .catch((err) => {
+      console.log("err", err);
+      errorSavedHabit = true;
+      habitDoneSaved = false;
+    });
+  return {
+    errorSavedHabit,
+    habitDoneSaved,
+  };
+};

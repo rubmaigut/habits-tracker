@@ -255,50 +255,45 @@ app.put("/habit/update/:id", isLoggedIn, async (req, res) => {
 app.post("/done/update/:id", isLoggedIn, async (req, res) => {
   const { id } = req.params;
   const { countDone } = req.body;
-  const options = {
-    new: true,
-    setDefaultsOnInsert: true,
-    useFindAndModify: false,
-  };
+
   const habitSelected = await Habit.findOne({ _id: id });
   const selectGoal = await Goal.findOne({ symbol: req.body.goalDone });
 
+  const objectId = mongoose.Types.ObjectId(id);
+  const today = new Date().toDateString() || null;
+
+  const habitDoned = await HabitDone.findOne({ habitId: objectId })
+    .limit(1)
+    .sort({ $natural: -1 });
+
   try {
-    const habitDoned = await HabitDone.findById(id);
-    const today = new Date().toDateString();
-    const newCreateAt = habitDoned.createdAt.toDateString();
-
-    console.log("today", today);
-    console.log("createat", newCreateAt);
-
-    if (newCreateAt === today) {
-      const update = await {
-        $set: {
+    if (habitDoned) {
+      const newCreatedAt = habitDoned.createdAt.toDateString();
+      if (newCreatedAt === today) {
+        const update = await {
+          $set: {
+            countDone,
+            goalDone: selectGoal.symbol,
+          },
+        };
+        await HabitDone.findByIdAndUpdate(habitDoned._id, update, {
+          useFindAndModify: false,
+        })
+          .then((subscriber) => {
+            res.json(subscriber);
+          })
+          .catch((error) => {
+            console.log(`Error updating subscriber by ID: ${error.message}`);
+            res.status(400).json(error);
+          });
+      } else {
+        await new HabitDone({
           countDone,
           goalDone: selectGoal.symbol,
-        },
-      };
-
-      await HabitDone.findByIdAndUpdatee(id, update, {
-        useFindAndModify: false,
-      })
-        .then((subscriber) => {
-          res.json(subscriber);
-        })
-        .catch((error) => {
-          console.log(`Error updating subscriber by ID: ${error.message}`);
-          res.status(400).json(error);
-        });
-      console.log("es Igual");
-
-    } else {
-         
-      if (habitSelected._id && selectGoal.symbol) {
-        await new HabitDone ({ 
-         countDone,
-          goalDone: selectGoal.symbol,
           habitId: habitSelected._id,
-        }).save().then((subscriber) => {
+        })
+          .save()
+          .then((subscriber) => {
             res.json(subscriber);
           })
           .catch((error) => {
@@ -306,7 +301,24 @@ app.post("/done/update/:id", isLoggedIn, async (req, res) => {
             res.status(400).json(error);
           });
       }
-      console.log("no es igual");
+    } else {
+      if (habitSelected._id && selectGoal.symbol) {
+        await new HabitDone({
+          countDone,
+          goalDone: selectGoal.symbol,
+          habitId: habitSelected._id,
+        })
+          .save()
+          .then((subscriber) => {
+            res.json(subscriber);
+          })
+          .catch((error) => {
+            console.log(`Error updating subscriber by ID: ${error.message}`);
+            res.status(400).json(error);
+          });
+      }else{
+        res.status(400).json({error:"error"})
+      }
     }
   } catch (error) {
     res.status(400).json(error.message);

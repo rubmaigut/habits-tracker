@@ -53,10 +53,10 @@ const Home = () => {
         <HabitTracker/>
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Item three
+       Summary
       </TabPanel>
       <TabPanel value={value} index={3}>
-        Item four
+        User
       </TabPanel>
     </MainWrapper>
   );

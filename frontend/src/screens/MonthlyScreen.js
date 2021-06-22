@@ -2,11 +2,20 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 import { getUserHabits } from "../helpers/Fetch-API";
-import { MainWrapper } from "../styled/StyledComponents";
-import DefaultHabit from "../components/DefaultHabit";
+import {
+  MainWrapper,
+  ActionCard,
+  IconWrapper,
+} from "../styled/StyledComponents";
 
-const Monthly = ({label}) => {
+import DefaultHabit from "../components/DefaultHabit";
+import AddHabitValue from "../components/addHabitDoneValue";
+
+import AddBoxIcon from "@material-ui/icons/AddBox";
+
+const Daily = ({ label }) => {
   const [habistList, setHabitsList] = useState([]);
+  const [open, setOpen] = useState({});
   const accessToken = useSelector((store) => store.user.accessToken);
 
   const getYourHabits = async () => {
@@ -15,9 +24,16 @@ const Monthly = ({label}) => {
       setHabitsList(habitsData);
     }
   };
-  const habitsByFrequency = habistList.filter((frequency)=>{
-      return frequency.frequency === `${label}`
-  })
+  const habitsByFrequency = habistList.filter((frequency) => {
+    return frequency.frequency === `${label}`;
+  });
+
+  const handleChangeToggle = (index) => {
+    setOpen({
+      ...open,
+      [index]: !open[index],
+    });
+  };
 
   useEffect(() => {
     getYourHabits();
@@ -27,18 +43,27 @@ const Monthly = ({label}) => {
   return (
     <MainWrapper>
       {habitsByFrequency.length
-        ? habitsByFrequency.map((habit) => (
-            <DefaultHabit
-              key={habit._id}
-              iconUrl={habit.icon?.url || null}
-              name={habit.name}
-              count={habit.count}
-              goal={habit.goal}
-              onClicK={() =>null}
-            />
+        ? habitsByFrequency.map((habit, index) => (
+            <IconWrapper key={habit._id}>
+              <DefaultHabit
+                iconUrl={habit.icon?.url || null}
+                name={habit.name}
+                count={habit.count}
+                goal={habit.goal}
+                onClicK={() => null}
+                hasOptions={true}
+                onClickOptions={() => handleChangeToggle(index)}
+              />
+              {open[index] === true && (
+                <ActionCard>
+                  <AddHabitValue
+                  id={habit._id} />
+                </ActionCard>
+              )}
+            </IconWrapper>
           ))
         : null}
     </MainWrapper>
   );
 };
-export default Monthly;
+export default Daily;

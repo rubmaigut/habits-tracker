@@ -56,7 +56,8 @@ const Daily = ({ label }) => {
               />
               {open[index] === true && (
                 <ActionCard>
-                  <AddHabitValue />
+                  <AddHabitValue
+                  id={habit._id} />
                 </ActionCard>
               )}
             </IconWrapper>
