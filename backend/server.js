@@ -6,7 +6,6 @@ const crypto = require("crypto");
 const bycrypt = require("bcrypt");
 const passport = require("passport");
 const mongoose = require("mongoose");
-const ObjectId = require("mongodb").ObjectID;
 
 const User = require("./models/user-model");
 const Habit = require("./models/habits-model");
@@ -17,7 +16,6 @@ const Category = require("./models/No-Editable-model/category-model");
 const Goal = require("./models/No-Editable-model/goal-model");
 const Frequency = require("./models/No-Editable-model/frequency-model");
 const TimeRange = require("./models/No-Editable-model/timeRange-model");
-const { response } = require("express");
 
 require("./models/No-Editable-model/category-model");
 require("./models/No-Editable-model/goal-model");
@@ -243,34 +241,75 @@ app.put("/habit/update/:id", isLoggedIn, async (req, res) => {
     selectFrequency.frequencyName &&
     selectTimeRange.timeRangeName
   ) {
-    await Habit.findByIdAndUpdate(id, update, {useFindAndModify: false})
+    await Habit.findByIdAndUpdate(id, update, { useFindAndModify: false })
       .then((subscriber) => {
-        res.json(subscriber)
+        res.json(subscriber);
       })
       .catch((error) => {
         console.log(`Error updating subscriber by ID: ${error.message}`);
         res.status(400).json(error);
       });
-      
   }
 });
 
-app.post("/habit/done/:id", isLoggedIn, async (req, res) => {
+app.post("/done/update/:id", isLoggedIn, async (req, res) => {
   const { id } = req.params;
-  const { isDone, userDate, notes } = req.body;
-
+  const { countDone } = req.body;
+  const options = {
+    new: true,
+    setDefaultsOnInsert: true,
+    useFindAndModify: false,
+  };
   const habitSelected = await Habit.findOne({ _id: id });
+  const selectGoal = await Goal.findOne({ symbol: req.body.goalDone });
 
-  if (habitSelected.isSelected === true) {
-    await new HabitDone({
-      habitId: habitSelected._id,
-      habitName: habitSelected.name,
-      isDone,
-      userDate,
-      notes,
-    })
-      .save()
-      .populate("habits");
+  try {
+    const habitDoned = await HabitDone.findById(id);
+    const today = new Date().toDateString();
+    const newCreateAt = habitDoned.createdAt.toDateString();
+
+    console.log("today", today);
+    console.log("createat", newCreateAt);
+
+    if (newCreateAt === today) {
+      const update = await {
+        $set: {
+          countDone,
+          goalDone: selectGoal.symbol,
+        },
+      };
+
+      await HabitDone.findByIdAndUpdatee(id, update, {
+        useFindAndModify: false,
+      })
+        .then((subscriber) => {
+          res.json(subscriber);
+        })
+        .catch((error) => {
+          console.log(`Error updating subscriber by ID: ${error.message}`);
+          res.status(400).json(error);
+        });
+      console.log("es Igual");
+
+    } else {
+         
+      if (habitSelected._id && selectGoal.symbol) {
+        await new HabitDone ({ 
+         countDone,
+          goalDone: selectGoal.symbol,
+          habitId: habitSelected._id,
+        }).save().then((subscriber) => {
+            res.json(subscriber);
+          })
+          .catch((error) => {
+            console.log(`Error updating subscriber by ID: ${error.message}`);
+            res.status(400).json(error);
+          });
+      }
+      console.log("no es igual");
+    }
+  } catch (error) {
+    res.status(400).json(error.message);
   }
 });
 

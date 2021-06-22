@@ -20,6 +20,7 @@ const CustomSelect = ({items=[], selectedValue, onChangeValue, tableName}) => {
 
   useEffect(()=>{
     setValue(selectedValue)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[selectedValue])
 
   return (

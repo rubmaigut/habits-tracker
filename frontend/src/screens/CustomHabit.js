@@ -211,6 +211,7 @@ const CustomHabit = () => {
 
   useEffect(() => {
     fetchTable();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -222,6 +223,7 @@ const CustomHabit = () => {
         fetchHabit(params.id);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params, location]);
 
   return (

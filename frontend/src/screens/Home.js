@@ -1,14 +1,18 @@
-import React from "react";
+import React,{useState} from "react";
+
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import { tabUseStyles } from "../styled/materialUI-TabHome";
 import PhoneIcon from "@material-ui/icons/Phone";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import PersonPinIcon from "@material-ui/icons/PersonPin";
-import { MainWrapper } from "../styled/StyledComponents";
+import { TabPanel } from "../components/TabPanel";  
+import { tabUseStyles } from "../styled/materialUI-TabHome";
+
+
 import YourHabits from "./YourHabits";
 import HabitTracker from "./HabitTracker"
-import { TabPanel } from "../components/TabPanel";  
+
+import { MainWrapper } from "../styled/StyledComponents";
 
 function a11yProps(index) {
   return {
@@ -19,7 +23,7 @@ function a11yProps(index) {
 
 const Home = () => {
   const classes = tabUseStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

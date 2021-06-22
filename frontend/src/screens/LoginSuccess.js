@@ -10,6 +10,7 @@ const LoginSucess = () => {
         setTimeout(()=>{
             window.close()
         }, 1000)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
     
     return(

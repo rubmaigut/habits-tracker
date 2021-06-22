@@ -8,6 +8,9 @@ export const tabUseStyles = makeStyles((theme) => ({
   tabs:{
     position: "fixed",
     bottom: 0
+  },
+  trackerTabs:{
+    
   }
 
 }));

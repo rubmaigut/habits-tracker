@@ -42,6 +42,16 @@ export const HabitCard = styled.div`
   box-shadow: rgb(0 0 0 / 25%) 0px 2px 4px 0px;
   border-radius: 10px;
 `
+export const ActionCard = styled.div`
+  width: 95%;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  box-shadow: rgb(0 0 0 / 25%) 0px 2px 4px 0px;
+  border-radius: 10px;
+`
 export const TrackerHabitInfo = styled.div`
   width: 35%;
   height: 50px;

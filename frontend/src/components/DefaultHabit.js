@@ -5,8 +5,17 @@ import {
   Paragraph,
   HabitInnerWrapper,
 } from "../styled/StyledComponents";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 
-const DefaultHabit = ({ iconUrl, name, onClicK, count, goal }) => {
+const DefaultHabit = ({
+  iconUrl,
+  name,
+  onClicK,
+  count,
+  goal,
+  hasOptions,
+  onClickOptions,
+}) => {
   return (
     <HabitCard
       onClick={onClicK}
@@ -18,7 +27,10 @@ const DefaultHabit = ({ iconUrl, name, onClicK, count, goal }) => {
       </HabitInnerWrapper>
       {count && goal && (
         <HabitInnerWrapper>
-          <Paragraph>{`${count} / ${goal}`}</Paragraph>
+          <Paragraph>{`${count} ${goal}`}</Paragraph>
+          {hasOptions && (
+            <MoreVertIcon style={{ marginLeft: 8 }} onClick={onClickOptions} />
+          )}
         </HabitInnerWrapper>
       )}
     </HabitCard>

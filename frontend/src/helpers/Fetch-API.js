@@ -247,3 +247,14 @@ export const getUserHabits = async ({accessToken})=>{
     .catch((error) => console.log(error));
 };
 
+export const fetchGoal= async()=>{
+  let GOAL_URL ="http://localhost:8080/setup/goal"
+
+  return fetch(GOAL_URL)
+  .then((response) => {
+    return response.json();
+  })
+  .then((data) => data)
+  .catch((error) => console.log(error))
+
+}
