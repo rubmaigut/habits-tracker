@@ -7,7 +7,12 @@ import DefaultHabit from "../components/DefaultHabit";
 
 import { MainWrapper } from "../styled/StyledComponents";
 
-import { getUserHabits } from "../helpers/Fetch-API";
+import { getUserHabits, deleteHabits } from "../helpers/Fetch-API";
+import {
+  SwipeableList,
+  SwipeableListItem,
+} from "@sandstreamdev/react-swipeable-list";
+import '@sandstreamdev/react-swipeable-list/dist/styles.css';
 
 const YourHabits = () => {
   const history = useHistory();
@@ -17,35 +22,54 @@ const YourHabits = () => {
 
   const getYourHabits = async () => {
     const habitsData = await getUserHabits({ accessToken });
-    if (habitsData.length) {
-      setHabitsList(habitsData);
-    }
+    setHabitsList(habitsData);
+   
   };
 
+  const deleteHabit= async (id)=>{
+    const deleteData= await deleteHabits({accessToken, id})
+    if (deleteData) {
+      getYourHabits()
+    }
+  }
+  
   useEffect(() => {
-    getYourHabits();
-    
+    if(accessToken){
+      getYourHabits();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [accessToken]);
 
   return (
-    <MainWrapper>
+    <MainWrapper style={{ marginBottom: "60px" }}>
       <Header
         title="Your Habits"
         rightOnClick={() => history.push("/add-habits")}
         icon="addCircleIcon"
       />
-        {habistList.length ?
-          habistList.map((habit) => (
-            <DefaultHabit
-              key={habit._id}
-              iconUrl={habit.icon?.url || null}
-              name={habit.name}
-              count={habit.count}
-              goal={habit.goal}
-              onClicK={() => history.push(`/habit/update/${habit._id}`)}
-            />
-          )): null}
+      <SwipeableList>
+        {habistList.length
+          ? habistList.map((habit) => (
+              <SwipeableListItem  key={habit._id}
+                swipeLeft={{
+                  content: <div style={{width:"95%", height:"100px%", backgroundColor:"red"}}> Delete</div>,
+                  action: () => deleteHabit(habit._id)
+                }}
+                onSwipeProgress={(progress) =>
+                  console.info(`Swipe progress: ${progress}%`)
+                }
+              >
+                <DefaultHabit
+                  iconUrl={habit.icon?.url || null}
+                  name={habit.name}
+                  count={habit.count}
+                  goal={habit.goal}
+                  onClicK={() => history.push(`/habit/update/${habit._id}`)}
+                />
+              </SwipeableListItem>
+            ))
+          : null}
+      </SwipeableList>
     </MainWrapper>
   );
 };

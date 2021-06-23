@@ -3,38 +3,44 @@ import { useSelector } from "react-redux";
 import { MainWrapper } from "../styled/StyledComponents";
 import TextField from "@material-ui/core/TextField";
 
-import { fetchGoal, IsHabitDone} from "../helpers/Fetch-API";
+import { fetchGoal, IsHabitDone } from "../helpers/Fetch-API";
 
-const AddHabitValue = ({id, habitGoal, refresh}) => {
+const AddHabitValue = ({
+  id,
+  habitGoal,
+  refresh,
+  habitProgress,
+  closeOnSave,
+}) => {
   const accessToken = useSelector((store) => store.user.accessToken);
   const [count, setCount] = useState("");
 
-  const [goalData, setGoalData] = useState([]);
-
-  const fetchingGoal = async () => {
-    const data = await fetchGoal();
-    setGoalData(data);
-  };
-
   const onSaveProgressDoned = async () => {
-
     const { habitDoneSaved } = await IsHabitDone({
       id,
       accessToken,
       count,
-      goal: habitGoal
+      goal: habitGoal,
+      isDone: parseInt(count) >= habitProgress,
     });
 
-    if (habitDoneSaved){
-      refresh()
+    console.log({
+      id,
+      accessToken,
+      count,
+      goal: habitGoal,
+      isDone: parseInt(count) >= habitProgress,
+    })
+
+    if (habitDoneSaved) {
+      refresh();
     }
-  
   };
 
   useEffect(() => {
-    fetchingGoal();
+    setCount(habitProgress);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [habitProgress]);
 
   return (
     <MainWrapper
@@ -52,8 +58,15 @@ const AddHabitValue = ({id, habitGoal, refresh}) => {
       />
       <p>{habitGoal}</p>
 
-        <button
-        onClick={()=>onSaveProgressDoned()}> save</button>
+      <button
+        onClick={() => {
+          onSaveProgressDoned();
+          closeOnSave();
+        }}
+      >
+        {" "}
+        save
+      </button>
     </MainWrapper>
   );
 };

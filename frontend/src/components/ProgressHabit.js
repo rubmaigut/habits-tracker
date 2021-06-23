@@ -31,7 +31,7 @@ const ProgressHabit = ({
       style={{ justifyContent: "center", padding: "0px 15px" }}
     >
       <HabitInnerWrapper style={{ width: "50%" }}>
-        <GoogleIcon src={iconUrl} style={{ padding: "0px" }} />
+      <GoogleIcon src={iconUrl} style={{width:"30px", height:"30px", padding: "0px" }} />
         <Paragraph style={{ marginLeft: "10px" }}>{name}</Paragraph>
       </HabitInnerWrapper>
       {count && goal && (
@@ -50,6 +50,7 @@ const ProgressHabit = ({
                   variant="determinate"
                   color="primary"
                   value={progress}
+                  size="33px"
                 />
                 <MoreVertIcon
                   style={{ marginLeft: 8 }}

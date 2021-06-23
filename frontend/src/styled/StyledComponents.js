@@ -8,12 +8,15 @@ export const MainWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: #ffeeef5e;
+ 
 `;
 export const InnerWrapper = styled.div`
   width: 100%;
   height: 100%;
   overflow-x: auto;
   display: flex;
+
   align-items: center;
 `;
 export const IconWrapper = styled.div`
@@ -36,17 +39,17 @@ export const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   background-color: #fff;
-  box-shadow: rgb(0 0 0 / 25%) 0px 2px 4px 0px;
+  box-shadow: rgb(0 0 0 / 77%) 0px 2px 4px 0px;
 `
 export const HabitCard = styled.div`
   width: 95%;
   height: 50px;
-  margin: 10px;
+  margin: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #fff;
-  box-shadow: rgb(0 0 0 / 25%) 0px 2px 4px 0px;
+  box-shadow: rgb(0 0 0 / 77%) 0px 2px 4px 0px;
   border-radius: 10px;
 `
 export const ActionCard = styled.div`
@@ -129,8 +132,8 @@ export const EmailButton = styled.button`
   font-size: 16px;
 `;
 export const GoogleIcon = styled.img`
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   padding: 5px;
 `;
 export const IconSize = styled.img`

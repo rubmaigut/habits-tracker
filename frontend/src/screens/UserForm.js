@@ -28,19 +28,17 @@ const UserForm = () => {
     const response = await axios
       .get("http://localhost:8080/home/", { withCredentials: true })
       .catch((err) => {
-        //console.log("Not properly authenticated");
         dispatch(user.actions.setIsAuthenticated(false))
         dispatch(user.actions.setUser(null))
         history.push("/login/error")
       });
     if (response && response.data) {
-      console.log("user", response.data);
       dispatch(user.actions.setIsAuthenticated(true))
       dispatch(user.actions.setUser(response.data))
       history.push("/home")
   }
 }
-  const redirecttoGoogle = async () => {
+  const redirectToGoogle = async () => {
     let timer= null
     const googleLoginUrl = "http://localhost:8080/auth/google/";
     const newWindow = window.open(
@@ -52,7 +50,6 @@ const UserForm = () => {
     if (newWindow) {
       timer = setInterval(()=>{
         if (newWindow.closed){
-          //console.log('authenticated')
           fetchAuthUser()
           if (timer) clearInterval(timer)
         }
@@ -68,11 +65,11 @@ const UserForm = () => {
       <FormWrapper>
         <GoogleButton
           style={{ backgroundColor: "#fff", color: "#737373" }}
-          onClick={redirecttoGoogle}
+          onClick={redirectToGoogle}
         />
         <Link to={"/user/signup"} style={{ textDecoration: "none" }}>
           <Wrapper>
-            <GoogleIcon src={emailIcon} />
+            <GoogleIcon src={emailIcon} style={{width:"40px", height:"40px"}} />
             <EmailButton type="submit">Sign in with Email</EmailButton>
           </Wrapper>
         </Link>

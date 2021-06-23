@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Badge } from "@material-ui/core";
-import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import { KeyboardDatePicker } from "@material-ui/pickers";
 
 import Header from "../components/Header";
@@ -11,8 +11,14 @@ import {
   InnerWrapper,
   HabitInnerWrapper,
   GoogleIcon,
-  Tags,
+  Title,
+  Subtitle,
 } from "../styled/StyledComponents";
+
+import rate from "../assets/report.png";
+import note from "../assets/note.png";
+import okay from "../assets/okay.png";
+import calendar from "../assets/calendar.png";
 
 import {
   fetchHabitByDay,
@@ -26,6 +32,10 @@ const Summary = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [icon, setIcon] = useState();
   const [habistList, setHabitsList] = useState([]);
+  const [habistTrackList, setHabitsTrackList] = useState([]);
+  const [habitByDate, setHabitByDate] = useState([]);
+  const [habitsDone, setHabistDone] = useState(0);
+  const [overallRate, setOverRate] = useState(0);
 
   const getYourHabits = async () => {
     const habitsData = await getUserHabits({ accessToken });
@@ -38,19 +48,21 @@ const Summary = () => {
   const allHabitDoned = async () => {
     const allHabitByDate = await fetchHabitByDay({
       accessToken,
-      startDate: startDate,
+      startDate,
     });
-    console.log(allHabitByDate);
+    setHabitByDate(allHabitByDate);
   };
 
   const allHabitDonedbyMonth = async () => {
     const allHabitByDate = await fetchHabitByMonth({
       accessToken,
-      startDate: startDate,
+      startDate,
     });
-    const days = await allHabitByDate.map((date)=> new Date(date.dateDone).getDate())
-    console.log(days)
-    setSelectedDays(days)
+    await setHabitsTrackList(allHabitByDate);
+    const days = await allHabitByDate.map((date) =>
+      new Date(date.dateDone).getDate()
+    );
+    await setSelectedDays(days);
   };
 
   const onChangeDate = (value) => {
@@ -59,24 +71,41 @@ const Summary = () => {
 
   const onMonthChange = (value) => {
     setStartDate(value.format().split("T")[0]);
-  }
+  };
 
   useEffect(() => {
+    //fetchChain();
     allHabitDoned();
     getYourHabits();
     allHabitDonedbyMonth();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startDate]);
+
+  useEffect(() => {
+    setHabistDone(habitByDate?.filter((item) => item.isDone).length);
+    setOverRate(
+      Math.trunc(
+        (habitByDate?.filter((item) => item.isDone).length * 100) /
+          habistList.length
+      )
+    );
+  }, [habistList, habistTrackList]);
 
   return (
     <MainWrapper>
       <Header title="All Habits" />
-      <HabitInnerWrapper style={{ width: "100%", overflow: "scroll" }}>
+      <HabitInnerWrapper
+        style={{
+          width: "100%",
+          overflow: "scroll",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
         {habistList.map((habit) => {
           icon?.find((habitDone) => habitDone.habitId === habit._id);
           return (
             <GoogleIcon
-            key={habit._id}
+              key={habit._id}
               src={habit.icon?.url || null}
               style={{ width: "35px", height: "35px" }}
             />
@@ -97,32 +126,50 @@ const Summary = () => {
           "aria-label": "change date",
         }}
         renderDay={(day, selectedDate, isInCurrentMonth, dayComponent) => {
-          const date = new Date(day); // skip this step, it is required to support date libs
+          const date = new Date(day);
           const isSelected =
             isInCurrentMonth && selectedDays.includes(date.getDate());
 
-          // You can also use our internal <Day /> component
           return (
-            <Badge badgeContent={isSelected ? <FiberManualRecordIcon color={"primary"} fontSize="small" /> : undefined}>
+            <Badge
+              badgeContent={
+                isSelected ? (
+                  <FiberManualRecordIcon fontSize="small" />
+                ) : undefined
+              }
+            >
               {dayComponent}
             </Badge>
           );
         }}
       />
-      <InnerWrapper>
-        <HabitInnerWrapper style={{ width: "50%" }}>
-          <Tags> Overall Rate</Tags>
+      <InnerWrapper style={{ marginBottom: "15px" }}>
+        <HabitInnerWrapper style={{ width: "47%", flexDirection: "column" }}>
+          <GoogleIcon src={rate} />
+          <Title style={{ marginBottom: "0px" }}>{overallRate} %</Title>
+          <p style={{ margin: "0px" }}>Overall rate</p>
         </HabitInnerWrapper>
-        <HabitInnerWrapper style={{ width: "50%" }}>
-          <Tags> Habit Done</Tags>
+
+        <HabitInnerWrapper style={{ width: "47%", flexDirection: "column" }}>
+          <GoogleIcon src={note} />
+          <Title
+            style={{ marginBottom: "0px" }}
+          >{`${habitsDone} / ${habistList.length}`}</Title>
+          <p style={{ margin: "0px" }}>Habit doned</p>
         </HabitInnerWrapper>
       </InnerWrapper>
+
       <InnerWrapper>
-        <HabitInnerWrapper style={{ width: "50%" }}>
-          <Tags> Best Streaks</Tags>
+        <HabitInnerWrapper style={{ width: "47%", flexDirection: "column" }}>
+          <GoogleIcon src={calendar} />
+          <Title style={{ marginBottom: "0px" }}>{overallRate} %</Title>
+          <p style={{ margin: "0px" }}>Done in Month</p>
         </HabitInnerWrapper>
-        <HabitInnerWrapper style={{ width: "50%" }}>
-          <Tags> Perfect Days</Tags>
+
+        <HabitInnerWrapper style={{ width: "47%", flexDirection: "column" }}>
+          <GoogleIcon src={okay} />
+          <Title style={{ marginBottom: "0px" }}>{overallRate} %</Title>
+          <p style={{ margin: "0px" }}>Perfect Days</p>
         </HabitInnerWrapper>
       </InnerWrapper>
     </MainWrapper>

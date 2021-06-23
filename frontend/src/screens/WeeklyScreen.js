@@ -8,10 +8,10 @@ import {
   IconWrapper,
 } from "../styled/StyledComponents";
 
-import ProgressHabit from "../components/ProgressHabit"
+import ProgressHabit from "../components/ProgressHabit";
 import AddHabitValue from "../components/addHabitDoneValue";
 
-const Weekly = ({ label }) => {
+const Daily = ({ label }) => {
   const [habistList, setHabitsList] = useState([]);
   const [open, setOpen] = useState({});
   const [progressDone, setProgressDone] = useState();
@@ -39,6 +39,9 @@ const Weekly = ({ label }) => {
     setProgressDone(habitDoneData);
   };
 
+  const refresh = () => {
+    habitByDay();
+  };
   useEffect(() => {
     getYourHabits();
     habitByDay();
@@ -49,10 +52,13 @@ const Weekly = ({ label }) => {
     <MainWrapper>
       {habitsByFrequency.length
         ? habitsByFrequency.map((habit, index) => {
-          const habitProgress = progressDone?.find((habitDone)=> habitDone.habitId === habit._id)
-           const progressPercent= habitProgress?.countDone*100/habit.count
+            const habitProgress = progressDone?.find(
+              (habitDone) => habitDone.habitId === habit._id
+            );
+            const progressPercent =
+              (habitProgress?.countDone * 100) / habit.count;
 
-               return (
+            return (
               <IconWrapper key={habit._id}>
                 <ProgressHabit
                   iconUrl={habit.icon?.url || null}
@@ -61,13 +67,19 @@ const Weekly = ({ label }) => {
                   goal={habit.goal}
                   hasOptions={true}
                   onClickOptions={() => handleChangeToggle(index)}
-                  showProgress={ progressPercent > 100 ? 100 : progressPercent ||0}
+                  showProgress={
+                    progressPercent > 100 ? 100 : progressPercent || 0
+                  }
                 />
                 {open[index] === true && (
                   <ActionCard>
-                    <AddHabitValue 
-                    id={habit._id}
-                    habitGoal={habit.goal} />
+                    <AddHabitValue
+                      id={habit._id}
+                      habitGoal={habit.goal}
+                      habitProgress={habitProgress?.countDone}
+                      refresh={refresh}
+                      closeOnSave={() => handleChangeToggle(index)}
+                    />
                   </ActionCard>
                 )}
               </IconWrapper>
@@ -77,4 +89,4 @@ const Weekly = ({ label }) => {
     </MainWrapper>
   );
 };
-export default Weekly;
+export default Daily;

@@ -21,6 +21,9 @@ const HabitDone = mongoose.model("habitDone", {
   createdAt: {
     type: Date,
     default: Date.now
+  },
+  isDone: {
+    type: Boolean
   }
 });
 module.exports = HabitDone;

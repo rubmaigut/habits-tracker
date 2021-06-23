@@ -4,12 +4,11 @@ import { useSelector } from "react-redux";
 
 import Header from "../components/Header";
 import DefaultHabit from "../components/DefaultHabit";
-import button from "../assets/button.png";
+import AddIcon from '@material-ui/icons/Add';
 
 import {
 MainWrapper,
 CustomHabit,
-GoogleIcon,
 } from "../styled/StyledComponents";
 
 import { defaultHabits } from "../helpers/Fetch-API";
@@ -38,8 +37,8 @@ const AddHabits = () => {
         icon="storefrontRoundedIcon"
       />
       <CustomHabit onClick={() => history.push("/custom-habits")}>
-        <GoogleIcon src={button} />
-        Custom Habit
+      <AddIcon style={{color:"#e13351"}}/>
+        Create Custom Habit
       </CustomHabit>
       {habits.length &&
         habits.map((habit) => (

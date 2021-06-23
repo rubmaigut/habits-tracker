@@ -8,13 +8,14 @@ import {
 } from "../styled/StyledComponents";
 import AddCircleOutlineRoundedIcon from '@material-ui/icons/AddCircleOutlineRounded';
 import StorefrontRoundedIcon from "@material-ui/icons/StorefrontRounded";
+import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded';
 
 const iconSelector = (icon) => {
   switch (icon) {
     case "addCircleIcon":
-      return <AddCircleOutlineRoundedIcon />;
+      return <AddCircleOutlineRoundedIcon style={{color:"#e13351"}} />;
     case "storefrontRoundedIcon":
-      return <StorefrontRoundedIcon />;
+      return <StorefrontRoundedIcon  style={{color:"#e13351"}}/>;
 
     default:
       return null;
@@ -27,7 +28,7 @@ const ScreenHeader = ({ title, leftOnClick, rightOnClick, icon }) => {
       <HeaderBox1>
         {leftOnClick && (
           <HeaderIconButton onClick={leftOnClick}>
-            Back
+            <ArrowBackIosRoundedIcon/>
           </HeaderIconButton>
         )}
       </HeaderBox1>

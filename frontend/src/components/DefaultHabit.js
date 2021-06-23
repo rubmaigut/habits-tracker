@@ -20,7 +20,7 @@ const DefaultHabit = ({
       style={{ justifyContent: "space-between", padding: "0px 15px" }}
     >
       <HabitInnerWrapper>
-        <GoogleIcon src={iconUrl} style={{ padding: "0px" }} />
+        <GoogleIcon src={iconUrl} style={{width:"30px", height:"30px", padding: "0px" }} />
         <Paragraph style={{ marginLeft: "10px" }}>{name}</Paragraph>
       </HabitInnerWrapper>
       {count && goal && (

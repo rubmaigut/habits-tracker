@@ -252,9 +252,23 @@ app.put("/habit/update/:id", isLoggedIn, async (req, res) => {
       });
   }
 });
+
+app.delete("/habit/delete/:id", isLoggedIn, async (req,res)=>{
+  const { id } = req.params
+  const objectId = mongoose.Types.ObjectId(id);
+
+  const deleteHabit = await Habit.deleteOne({_id: id})
+  const deleteAllRecord = await HabitDone.deleteMany({habitId : { $in:[objectId]}})
+  console.log(deleteAllRecord)
+  
+  if (deleteAllRecord && deleteHabit) {
+    return res.json("Habit deleted")
+  }
+
+})
 app.post("/done/update/:id", isLoggedIn, async (req, res) => {
   const { id } = req.params;
-  const { countDone } = req.body;
+  const { countDone, isDone } = req.body;
 
   const habitSelected = await Habit.findOne({ _id: id });
   const selectGoal = await Goal.findOne({ symbol: req.body.goalDone });
@@ -276,6 +290,7 @@ app.post("/done/update/:id", isLoggedIn, async (req, res) => {
           $set: {
             countDone,
             goalDone: selectGoal.symbol,
+            isDone
           },
         };
         await HabitDone.findByIdAndUpdate(habitDoned._id, update, {

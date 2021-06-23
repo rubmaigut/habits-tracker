@@ -262,12 +262,11 @@ export const fetchGoal = async () => {
     .catch((error) => console.log(error));
 };
 
-export const fetchHabitByDay = async ({accessToken, startDate}) => {
-
+export const fetchHabitByDay = async ({ accessToken, startDate }) => {
   let HABIT_DONED = "http://localhost:8080/done-by-date";
 
-  return fetch(HABIT_DONED,{
-    method:'POST',
+  return fetch(HABIT_DONED, {
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: accessToken,
@@ -275,7 +274,8 @@ export const fetchHabitByDay = async ({accessToken, startDate}) => {
     body: JSON.stringify({
       date: startDate,
     }),
-  }).then((response) => {
+  })
+    .then((response) => {
       return response.json();
     })
     .then((data) => {
@@ -284,12 +284,11 @@ export const fetchHabitByDay = async ({accessToken, startDate}) => {
     .catch((error) => console.log(error));
 };
 
-export const fetchHabitByMonth = async ({accessToken, startDate}) => {
-
+export const fetchHabitByMonth = async ({ accessToken, startDate }) => {
   let HABIT_DONED = "http://localhost:8080/done-by-month";
 
-  return fetch(HABIT_DONED,{
-    method:'POST',
+  return fetch(HABIT_DONED, {
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: accessToken,
@@ -297,7 +296,8 @@ export const fetchHabitByMonth = async ({accessToken, startDate}) => {
     body: JSON.stringify({
       date: startDate,
     }),
-  }).then((response) => {
+  })
+    .then((response) => {
       return response.json();
     })
     .then((data) => {
@@ -306,7 +306,7 @@ export const fetchHabitByMonth = async ({accessToken, startDate}) => {
     .catch((error) => console.log(error));
 };
 
-export const IsHabitDone = async ({ accessToken, id, count, goal }) => {
+export const IsHabitDone = async ({ accessToken, id, count, goal, isDone }) => {
   let DONE_HABIT = `http://localhost:8080/done/update/${id}`;
 
   let habitDoneSaved;
@@ -321,6 +321,7 @@ export const IsHabitDone = async ({ accessToken, id, count, goal }) => {
     body: JSON.stringify({
       countDone: count,
       goalDone: goal,
+      isDone,
     }),
   })
     .then((response) => {
@@ -346,4 +347,22 @@ export const IsHabitDone = async ({ accessToken, id, count, goal }) => {
     errorSavedHabit,
     habitDoneSaved,
   };
+};
+
+export const deleteHabits = async ({ accessToken, id }) => {
+  let DELETE_HABIT = `http://localhost:8080/habit/delete/${id}`;
+
+  return fetch(DELETE_HABIT, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: accessToken,
+    },
+  }).then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => console.log(error));
 };

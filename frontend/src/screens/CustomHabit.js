@@ -54,6 +54,8 @@ const CustomHabit = () => {
   const [iconSelected, setIconSelected] = useState(null);
   const [displayIconModal, setDisplayIconModal] = useState(false);
 
+  const  [tablesFetched, setTablesFetched]= useState(false)
+
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
 
@@ -77,7 +79,7 @@ const CustomHabit = () => {
               value: item.categoryName,
               name: item.categoryName,
             }));
-            setCategoryData(newCategory);
+            await setCategoryData(newCategory);
             break;
 
           case "goal":
@@ -86,7 +88,7 @@ const CustomHabit = () => {
               value: item.symbol,
               name: item.unitName,
             }));
-            setGoalData(newGoal);
+            await setGoalData(newGoal);
             break;
 
           case "frequency":
@@ -95,7 +97,7 @@ const CustomHabit = () => {
               value: item.frequencyName,
               name: item.frequencyName,
             }));
-            setFrequencyData(newFrequency);
+            await setFrequencyData(newFrequency);
             break;
 
           case "timeRange":
@@ -104,13 +106,14 @@ const CustomHabit = () => {
               value: item.timeRangeName,
               name: item.timeRangeName,
             }));
-            setTimeData(newTimeRange);
+            await setTimeData(newTimeRange);
             break;
 
           default:
-            setTimeData([]);
+            await  setTimeData([]);
             break;
         }
+        await setTablesFetched(true)
       } catch (error) {}
     });
   };
@@ -217,7 +220,7 @@ const CustomHabit = () => {
 
   useEffect(() => {
     const editCustom = location.pathname.search("edit");
-    if (params.id) {
+    if (params.id && tablesFetched) {
       if (editCustom > -1) {
         fetchCustomHabit(params.id);
       } else {
@@ -225,7 +228,7 @@ const CustomHabit = () => {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params, location]);
+  }, [params, location, tablesFetched]);
 
   return (
     <ThemeProvider theme={materialTheme}>
@@ -268,17 +271,17 @@ const CustomHabit = () => {
 
         <FormWrapper
           className={classes.goalForm}
-          style={{ flexDirection: "row", justifyContent: "space-between" }}
+          style={{justifyContent: "space-between" }}
         >
           <TextField
-            style={{ width: "50%" }}
+            style={{ width: "95%" }}
             onChange={(e) => setCount(e.target.value)}
             value={count}
             label="Count "
             helperText="expressed in number your goal"
           />
           <CustomSelect
-            style={{ width: "50%" }}
+            style={{ width: "35%" }}
             items={goalData}
             selectedValue={goal}
             onChangeValue={setGoal}

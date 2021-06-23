@@ -7,7 +7,10 @@ export const tabUseStyles = makeStyles((theme) => ({
   },
   tabs:{
     position: "fixed",
-    bottom: 0
+    bottom: 0,
+    backgroundColor:"#ffeeef",
+    width:"100%",
+    maxWidth: 415
   },
   trackerTabs:{
     
