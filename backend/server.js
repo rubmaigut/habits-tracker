@@ -325,20 +325,16 @@ app.post("/done/update/:id", isLoggedIn, async (req, res) => {
   }
 });
 
-app.get("/done-by-date", async (req, res) => {
-  const {date = new Date()}= req.params
-
+app.post("/done-by-date", isLoggedIn, async (req, res) => {
+  const {date = new Date()}= req.body
   const today = new Date(date).toLocaleString().split(', ')[0]
   
-  let finalDate = new Date();
-  finalDate.setSeconds(59)
-  finalDate.setMinutes(59);
-  finalDate.setHours(23);
+  let finalDate = new Date(today);
+  finalDate.setHours(23, 59, 59);
   
   const habitDoned = await HabitDone.find({createdAt: {"$gte": new Date(today), "$lt": finalDate}} )
-
   res.json(habitDoned);
-  console.log(habitDoned)
+
 });
 
 /**** HABIT MODEL - END ****/
