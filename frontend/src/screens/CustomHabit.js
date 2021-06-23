@@ -1,9 +1,8 @@
 import "moment";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-
 import { useHistory, useParams, useLocation } from "react-router-dom";
-import { MainWrapper, FormWrapper, IconSize } from "../styled/StyledComponents";
+
 import {
   useStyles,
   materialTheme,
@@ -12,9 +11,7 @@ import {
 
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-
 import { KeyboardDatePicker } from "@material-ui/pickers";
-
 import { ThemeProvider } from "@material-ui/styles";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
@@ -22,6 +19,9 @@ import Header from "../components/Header";
 import CustomSelect from "../components/CustomSelect";
 import IconModal from "../components/IconModal";
 import CustomModal from "../components/CustomModal";
+
+import { MainWrapper, FormWrapper, IconSize } from "../styled/StyledComponents";
+
 import {
   formDataSelected,
   createCustomHabit,
@@ -29,6 +29,7 @@ import {
   findHabit,
   updateYourHabit,
 } from "../helpers/Fetch-API";
+
 
 const tableNames = ["category", "goal", "frequency", "timeRange"];
 
@@ -308,7 +309,7 @@ const CustomHabit = () => {
           <KeyboardDatePicker
             margin="normal"
             id="date-picker-dialog"
-            label="Date picker dialog"
+            label="Start Date"
             format="MM/DD/YYYY"
             value={startDate}
             onChange={setStartDate}
@@ -331,7 +332,7 @@ const CustomHabit = () => {
             <KeyboardDatePicker
               margin="normal"
               id="date-picker-dialog"
-              label="Date picker dialog"
+              label="End Date"
               format="MM/DD/YYYY"
               value={endDate}
               minDate={startDate}

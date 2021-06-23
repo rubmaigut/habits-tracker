@@ -9,6 +9,13 @@ export const MainWrapper = styled.div`
   flex-direction: column;
   align-items: center;
 `;
+export const InnerWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  display: flex;
+  align-items: center;
+`;
 export const IconWrapper = styled.div`
   width: 100%;
   height: 75%;
@@ -124,7 +131,7 @@ export const EmailButton = styled.button`
 export const GoogleIcon = styled.img`
   width: 30px;
   height: 30px;
-  padding: 10px;
+  padding: 5px;
 `;
 export const IconSize = styled.img`
   width: 40px;
@@ -146,6 +153,7 @@ export const CustomHabit = styled.a`
   justify-content: center;
   align-items: center;
 `;
-
+export const Tags = styled.span`
+`
 
 

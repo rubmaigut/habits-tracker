@@ -2,17 +2,20 @@ import React,{useState} from "react";
 
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import PhoneIcon from "@material-ui/icons/Phone";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import PersonPinIcon from "@material-ui/icons/PersonPin";
-import { TabPanel } from "../components/TabPanel";  
+import ViewListRoundedIcon from '@material-ui/icons/ViewListRounded';
+import EventAvailableRoundedIcon from '@material-ui/icons/EventAvailableRounded';
+import DonutLargeRoundedIcon from '@material-ui/icons/DonutLargeRounded';
+import SettingsRoundedIcon from '@material-ui/icons/SettingsRounded';
+
 import { tabUseStyles } from "../styled/materialUI-TabHome";
+import { MainWrapper } from "../styled/StyledComponents";
 
 
+import { TabPanel } from "../components/TabPanel";  
 import YourHabits from "./YourHabits";
 import HabitTracker from "./HabitTracker"
+import Summary from "./Summary";
 
-import { MainWrapper } from "../styled/StyledComponents";
 
 function a11yProps(index) {
   return {
@@ -40,10 +43,10 @@ const Home = () => {
         aria-label="icon tabs example"
         className={classes.tabs}
       >
-        <Tab icon={<PhoneIcon />} aria-label="phone" {...a11yProps(0)} />
-        <Tab icon={<FavoriteIcon />} aria-label="favorite" {...a11yProps(1)} />
-        <Tab icon={<PersonPinIcon />} aria-label="person" {...a11yProps(2)} />
-        <Tab icon={<PersonPinIcon />} aria-label="person" {...a11yProps(3)} />
+        <Tab icon={<ViewListRoundedIcon />} aria-label="phone" {...a11yProps(0)} />
+        <Tab icon={<EventAvailableRoundedIcon />} aria-label="favorite" {...a11yProps(1)} />
+        <Tab icon={<DonutLargeRoundedIcon />} aria-label="person" {...a11yProps(2)} />
+        <Tab icon={<SettingsRoundedIcon />} aria-label="person" {...a11yProps(3)} />
       </Tabs>
 
       <TabPanel value={value} index={0}>
@@ -53,7 +56,7 @@ const Home = () => {
         <HabitTracker/>
       </TabPanel>
       <TabPanel value={value} index={2}>
-       Summary
+       <Summary/>
       </TabPanel>
       <TabPanel value={value} index={3}>
         User

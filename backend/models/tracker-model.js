@@ -5,6 +5,10 @@ const HabitDone = mongoose.model("habitDone", {
     type: mongoose.Schema.Types,
     ref: "Habit",
   },
+  userId: {
+    type: mongoose.Schema.Types,
+    ref: "User",
+  },
   countDone: Number,
   goalDone: {
     type: mongoose.Schema.Types,

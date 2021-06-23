@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { MainWrapper } from "../styled/StyledComponents";
-import Header from "../components/Header";
-import { getUserHabits } from "../helpers/Fetch-API";
 import { useSelector } from "react-redux";
+
+import Header from "../components/Header";
 import DefaultHabit from "../components/DefaultHabit";
+
+import { MainWrapper } from "../styled/StyledComponents";
+
+import { getUserHabits } from "../helpers/Fetch-API";
 
 const YourHabits = () => {
   const history = useHistory();
@@ -21,6 +24,7 @@ const YourHabits = () => {
 
   useEffect(() => {
     getYourHabits();
+    
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

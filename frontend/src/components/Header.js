@@ -6,13 +6,13 @@ import {
   Subtitle,
   HeaderIconButton,
 } from "../styled/StyledComponents";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
+import AddCircleOutlineRoundedIcon from '@material-ui/icons/AddCircleOutlineRounded';
 import StorefrontRoundedIcon from "@material-ui/icons/StorefrontRounded";
 
 const iconSelector = (icon) => {
   switch (icon) {
     case "addCircleIcon":
-      return <AddCircleIcon />;
+      return <AddCircleOutlineRoundedIcon />;
     case "storefrontRoundedIcon":
       return <StorefrontRoundedIcon />;
 

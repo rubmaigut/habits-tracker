@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   HabitCard,
   GoogleIcon,
@@ -12,32 +12,23 @@ const DefaultHabit = ({
   onClicK,
   count,
   goal,
-  showProgress
 }) => {
-  const [progress, setProgress] = useState(0);
-
-  const renderProgressPercent = () => {
-    setProgress(showProgress);
-  };
-
-  useEffect(() => {
-    renderProgressPercent();
-  }, []);
-
+  
   return (
     <HabitCard
       onClick={onClicK}
       style={{ justifyContent: "space-between", padding: "0px 15px" }}
     >
-      <HabitInnerWrapper >
+      <HabitInnerWrapper>
         <GoogleIcon src={iconUrl} style={{ padding: "0px" }} />
         <Paragraph style={{ marginLeft: "10px" }}>{name}</Paragraph>
       </HabitInnerWrapper>
       {count && goal && (
-        <HabitInnerWrapper  >
-          <HabitInnerWrapper style={{margin:"10px", textAlign: "start"}}>
+        <HabitInnerWrapper>
+          <HabitInnerWrapper style={{ margin: "10px", textAlign: "start" }}>
             <Paragraph>{`${count} ${goal}`}</Paragraph>
           </HabitInnerWrapper>
+          
         </HabitInnerWrapper>
       )}
     </HabitCard>

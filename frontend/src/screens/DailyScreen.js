@@ -38,7 +38,6 @@ const Daily = ({ label }) => {
   const habitByDay = async () => {
     const habitDoneData = await fetchHabitByDay({ accessToken });
     setProgressDone(habitDoneData);
-    console.log('fetch 2',habitDoneData)
   };
 
   const refresh = ()=>{

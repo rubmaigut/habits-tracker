@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
-import {
-  MainWrapper,
-  CustomHabit,
-  GoogleIcon,
-} from "../styled/StyledComponents";
 
 import Header from "../components/Header";
 import DefaultHabit from "../components/DefaultHabit";
 import button from "../assets/button.png";
+
+import {
+MainWrapper,
+CustomHabit,
+GoogleIcon,
+} from "../styled/StyledComponents";
 
 import { defaultHabits } from "../helpers/Fetch-API";
 
@@ -33,7 +34,7 @@ const AddHabits = () => {
     <MainWrapper>
       <Header
         leftOnClick={history.goBack}
-        title="New Habits"
+        title="Default Habits"
         icon="storefrontRoundedIcon"
       />
       <CustomHabit onClick={() => history.push("/custom-habits")}>
