@@ -258,7 +258,9 @@ app.post("/done/update/:id", isLoggedIn, async (req, res) => {
 
   const habitSelected = await Habit.findOne({ _id: id });
   const selectGoal = await Goal.findOne({ symbol: req.body.goalDone });
-
+  const user = await User.findOne({
+    accessToken: req.headers.authorization,
+  });
   const objectId = mongoose.Types.ObjectId(id);
   const today = new Date().toDateString() || null;
 
@@ -291,6 +293,7 @@ app.post("/done/update/:id", isLoggedIn, async (req, res) => {
           countDone,
           goalDone: selectGoal.symbol,
           habitId: habitSelected._id,
+          userId: user._id
         })
           .save()
           .then((subscriber) => {
@@ -307,6 +310,7 @@ app.post("/done/update/:id", isLoggedIn, async (req, res) => {
           countDone,
           goalDone: selectGoal.symbol,
           habitId: habitSelected._id,
+          userId: user._id
         })
           .save()
           .then((subscriber) => {
@@ -326,21 +330,46 @@ app.post("/done/update/:id", isLoggedIn, async (req, res) => {
 });
 
 app.post("/done-by-date", isLoggedIn, async (req, res) => {
-  const {date = new Date()}= req.body
-  const today = new Date(date).toLocaleString().split(', ')[0]
-  
+  const { date = new Date() } = req.body;
+  const today = new Date(date).toLocaleString().split(", ")[0];
+
   let finalDate = new Date(today);
   finalDate.setHours(23, 59, 59);
-  
-  const habitDoned = await HabitDone.find({createdAt: {"$gte": new Date(today), "$lt": finalDate}} )
-  res.json(habitDoned);
 
+  const habitDoned = await HabitDone.find({
+    createdAt: { $gte: new Date(today), $lt: finalDate },
+  });
+  res.json(habitDoned);
 });
 
+app.post("/done-by-month", isLoggedIn, async (req, res) => {
+  const { date = new Date() } = req.body;
+
+  const user = await User.findOne({
+    accessToken: req.headers.authorization,
+  });
+
+  let startDate = new Date(date);
+  startDate.setMonth(startDate.getMonth(), 1);
+  let endDate = new Date(new Date(startDate).getFullYear(), startDate.getMonth() + 1, 1);
+
+  console.log("startDate", startDate)
+  console.log("endDate", endDate)
+
+  const habitDoned = await HabitDone.find({
+    userId: user._id,
+    createdAt: { $gte: startDate, $lt: endDate },
+  });
+  res.json(habitDoned);
+});
+
+app.get("/all-done", isLoggedIn, async (req, res) => {
+  const habitDoned = await HabitDone.find({});
+  res.json(habitDoned);
+});
 /**** HABIT MODEL - END ****/
 
 /****  GET ICON LIST ****/
-
 app.get("/icons", async (req, res) => {
   try {
     const icon = await Icon.find({});
