@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import Header from "../components/Header";
 import DefaultHabit from "../components/DefaultHabit";
 
-import { MainWrapper } from "../styled/StyledComponents";
+import { HomeWrapper } from "../styled/StyledComponents";
 
 import { getUserHabits, deleteHabits } from "../helpers/Fetch-API";
 import {
@@ -41,7 +41,7 @@ const YourHabits = () => {
   }, [accessToken]);
 
   return (
-    <MainWrapper style={{ marginBottom: "60px" }}>
+    <HomeWrapper>
       <Header
         title="Your Habits"
         rightOnClick={() => history.push("/add-habits")}
@@ -70,7 +70,7 @@ const YourHabits = () => {
             ))
           : null}
       </SwipeableList>
-    </MainWrapper>
+    </HomeWrapper>
   );
 };
 

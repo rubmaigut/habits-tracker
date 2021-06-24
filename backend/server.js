@@ -368,9 +368,6 @@ app.post("/done-by-month", isLoggedIn, async (req, res) => {
   startDate.setMonth(startDate.getMonth(), 1);
   let endDate = new Date(new Date(startDate).getFullYear(), startDate.getMonth() + 1, 1);
 
-  console.log("startDate", startDate)
-  console.log("endDate", endDate)
-
   const habitDoned = await HabitDone.find({
     userId: user._id,
     createdAt: { $gte: startDate, $lt: endDate },

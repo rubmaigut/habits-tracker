@@ -8,15 +8,21 @@ export const MainWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #ffeeef5e;
- 
+
 `;
 export const InnerWrapper = styled.div`
   width: 100%;
   height: 100%;
   overflow-x: auto;
   display: flex;
-
+  align-items: center;
+`;
+export const HomeWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  display: flex;
+  flex-direction: column;
   align-items: center;
 `;
 export const IconWrapper = styled.div`
@@ -28,7 +34,8 @@ export const IconWrapper = styled.div`
 `;
 export const HeaderWrapper = styled.div`
   width: 100%;
-  height: 50px;
+  height: 60px;
+  margin: 10px;
   display: flex;
 `;
 export const Wrapper = styled.div`
@@ -40,7 +47,7 @@ export const Wrapper = styled.div`
   align-items: center;
   background-color: #fff;
   box-shadow: rgb(0 0 0 / 77%) 0px 2px 4px 0px;
-`
+`;
 export const HabitCard = styled.div`
   width: 95%;
   height: 50px;
@@ -51,7 +58,7 @@ export const HabitCard = styled.div`
   background-color: #fff;
   box-shadow: rgb(0 0 0 / 77%) 0px 2px 4px 0px;
   border-radius: 10px;
-`
+`;
 export const ActionCard = styled.div`
   width: 95%;
   height: 60px;
@@ -61,7 +68,7 @@ export const ActionCard = styled.div`
   background-color: #fff;
   box-shadow: rgb(0 0 0 / 25%) 0px 2px 4px 0px;
   border-radius: 10px;
-`
+`;
 export const TrackerHabitInfo = styled.div`
   width: 35%;
   height: 50px;
@@ -72,7 +79,7 @@ export const TrackerHabitInfo = styled.div`
   background-color: #fff;
   box-shadow: rgb(0 0 0 / 25%) 0px 2px 4px 0px;
   border-radius: 10px;
-`
+`;
 export const HeaderBox1 = styled.div`
   width: 15%;
   height: 100%;
@@ -97,20 +104,20 @@ export const HabitInnerWrapper = styled.div`
   height: 100%;
   display: flex;
   align-items: center;
-`
-export const Title = styled.h1`
-  font-weight: bold;
-  margin-top: 10px;
-  color: black;
 `;
-export const Subtitle = styled.h3`
+export const Title = styled.h1`
+  font-family: 'Rock Salt', cursive;
+  margin-top: 10px;
+  color: #4c4949;
+`;
+export const Subtitle = styled.h2`
+  font-family: 'Rock Salt', cursive;
   font-weight: bold;
-  color: black;
+  color: #4c4949;
 `;
 export const Paragraph = styled.p`
   color: #737373;
   text-align: start;
-
 `;
 export const FormWrapper = styled.form`
   width: 95%;
@@ -120,7 +127,6 @@ export const FormWrapper = styled.form`
   align-items: center;
   justify-content: center;
 `;
-;
 export const EmailButton = styled.button`
   width: 100%;
   height: 50px;
@@ -156,7 +162,4 @@ export const CustomHabit = styled.a`
   justify-content: center;
   align-items: center;
 `;
-export const Tags = styled.span`
-`
-
 

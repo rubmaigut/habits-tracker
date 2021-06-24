@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Badge } from "@material-ui/core";
-import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
+import DoneOutlineRoundedIcon from '@material-ui/icons/DoneOutlineRounded';
 import { KeyboardDatePicker } from "@material-ui/pickers";
 
 import Header from "../components/Header";
@@ -12,7 +12,6 @@ import {
   HabitInnerWrapper,
   GoogleIcon,
   Title,
-  Subtitle,
 } from "../styled/StyledComponents";
 
 import rate from "../assets/report.png";
@@ -74,7 +73,6 @@ const Summary = () => {
   };
 
   useEffect(() => {
-    //fetchChain();
     allHabitDoned();
     getYourHabits();
     allHabitDonedbyMonth();
@@ -134,7 +132,7 @@ const Summary = () => {
             <Badge
               badgeContent={
                 isSelected ? (
-                  <FiberManualRecordIcon fontSize="small" />
+                  <DoneOutlineRoundedIcon fontSize="small" color="primary" />
                 ) : undefined
               }
             >

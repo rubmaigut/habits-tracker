@@ -8,7 +8,7 @@ import DonutLargeRoundedIcon from '@material-ui/icons/DonutLargeRounded';
 import SettingsRoundedIcon from '@material-ui/icons/SettingsRounded';
 
 import { tabUseStyles } from "../styled/materialUI-TabHome";
-import { MainWrapper } from "../styled/StyledComponents";
+import { HomeWrapper } from "../styled/StyledComponents";
 
 
 import { TabPanel } from "../components/TabPanel";  
@@ -33,7 +33,7 @@ const Home = () => {
   };
 
   return (
-    <MainWrapper className={classes.root}>
+    <HomeWrapper className={classes.root}>
       <Tabs
         value={value}
         onChange={handleChange}
@@ -43,10 +43,10 @@ const Home = () => {
         aria-label="icon tabs example"
         className={classes.tabs}
       >
-        <Tab icon={<ViewListRoundedIcon />} aria-label="phone" {...a11yProps(0)} />
-        <Tab icon={<EventAvailableRoundedIcon />} aria-label="favorite" {...a11yProps(1)} />
-        <Tab icon={<DonutLargeRoundedIcon />} aria-label="person" {...a11yProps(2)} />
-        <Tab icon={<SettingsRoundedIcon />} aria-label="person" {...a11yProps(3)} />
+        <Tab icon={<ViewListRoundedIcon fontSize="medium" />} aria-label="phone" {...a11yProps(0)} />
+        <Tab icon={<EventAvailableRoundedIcon fontSize="medium" />} aria-label="favorite" {...a11yProps(1)} />
+        <Tab icon={<DonutLargeRoundedIcon  fontSize="medium"/>} aria-label="person" {...a11yProps(2)} />
+        <Tab icon={<SettingsRoundedIcon fontSize="medium"/>} aria-label="person" {...a11yProps(3)} />
       </Tabs>
 
       <TabPanel value={value} index={0}>
@@ -61,7 +61,7 @@ const Home = () => {
       <TabPanel value={value} index={3}>
         User
       </TabPanel>
-    </MainWrapper>
+    </HomeWrapper>
   );
 }
 

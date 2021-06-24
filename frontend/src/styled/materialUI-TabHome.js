@@ -6,11 +6,12 @@ export const tabUseStyles = makeStyles((theme) => ({
     maxWidth: 500,
   },
   tabs:{
-    position: "fixed",
-    bottom: 0,
-    backgroundColor:"#ffeeef",
+    //position: "fixed",
+    //bottom: 0,
+    marginTop: "30px",
+    background:"linear-gradient(45deg, #fe6b8b70 30%, #ff8e5375 90%)",
     width:"100%",
-    maxWidth: 415
+    maxWidth: 500
   },
   trackerTabs:{
     
