@@ -43,7 +43,6 @@ const SignUp = () => {
       dispatch(user.actions.setUser(userInfo));
       dispatch(user.actions.setIsAuthenticated(true));
       history.push("/home");
-      console.log(userInfo);
     } else {
       setError(error400);
       return error;

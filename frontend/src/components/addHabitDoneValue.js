@@ -25,14 +25,6 @@ const AddHabitValue = ({
       isDone: parseInt(count) >= habitCount,
     });
 
-    console.log({
-     
-      isDone: parseInt(count) 
-    })
-    console.log({
-     
-      isDone: habitProgress,
-    })
 
     if (habitDoneSaved) {
       refresh();

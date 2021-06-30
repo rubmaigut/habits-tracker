@@ -55,9 +55,9 @@ const YourHabits = () => {
                   content: <div style={{width:"95%", height:"50px", backgroundColor:"red"}}> Delete</div>,
                   action: () => deleteHabit(habit._id)
                 }}
-                onSwipeProgress={(progress) =>
+              /*   onSwipeProgress={(progress) =>
                   console.info(`Swipe progress: ${progress}%`)
-                }
+                } */
               >
                 <DefaultHabit
                   iconUrl={habit.icon?.url || null}

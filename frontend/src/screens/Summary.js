@@ -74,11 +74,9 @@ const Summary = () => {
     allHabitDoned();
     getYourHabits();
     allHabitDonedbyMonth();
-    console.log("fetching")
   }, [startDate]);
 
   useEffect(() => {
-    console.log("setting values", habitByDate)
 
     setHabistDone(habitByDate?.filter((item) => item.isDone).length);
     setOverRate(

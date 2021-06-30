@@ -52,7 +52,6 @@ const Daily = ({ label }) => {
     <MainWrapper>
       {habitsByFrequency.length
         ? habitsByFrequency.map((habit, index) => {
-          console.log()
             const habitProgress = progressDone?.find(
               (habitDone) => habitDone.habitId === habit._id
             );
