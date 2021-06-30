@@ -7,7 +7,7 @@ import {
 } from "../styled/StyledComponents";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
-import CircularProgress from "@material-ui/core/CircularProgress"
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const ProgressHabit = ({
   iconUrl,
@@ -17,7 +17,7 @@ const ProgressHabit = ({
   goal,
   hasOptions,
   onClickOptions,
-  showProgress
+  showProgress,
 }) => {
   const [progress, setProgress] = useState(0);
 
@@ -28,10 +28,13 @@ const ProgressHabit = ({
   return (
     <HabitCard
       onClick={onClicK}
-      style={{ justifyContent: "center", padding: "0px 15px" }}
+      style={{ justifyContent: "space-between", padding: "0px 15px" }}
     >
       <HabitInnerWrapper style={{ width: "50%" }}>
-      <GoogleIcon src={iconUrl} style={{width:"30px", height:"30px", padding: "0px" }} />
+        <GoogleIcon
+          src={iconUrl}
+          style={{ width: "30px", height: "30px", padding: "0px" }}
+        />
         <Paragraph style={{ marginLeft: "10px" }}>{name}</Paragraph>
       </HabitInnerWrapper>
       {count && goal && (
@@ -43,23 +46,19 @@ const ProgressHabit = ({
           </HabitInnerWrapper>
           <HabitInnerWrapper
             style={{ width: "100%", justifyContent: "space-between" }}
-          >
-            {hasOptions && (
-              <>
-                <CircularProgress
-                  variant="determinate"
-                  color="primary"
-                  value={progress}
-                  size="33px"
-                />
-                <MoreVertIcon
-                  style={{ marginLeft: 8 }}
-                  onClick={onClickOptions}
-                />
-              </>
-            )}
-          </HabitInnerWrapper>
+          ></HabitInnerWrapper>
         </HabitInnerWrapper>
+      )}
+      {hasOptions && (
+        <>
+          <CircularProgress
+            variant="determinate"
+            color="primary"
+            value={progress}
+            size="33px"
+          />
+          <MoreVertIcon style={{ marginLeft: 8 }} onClick={onClickOptions} />
+        </>
       )}
     </HabitCard>
   );

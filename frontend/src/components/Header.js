@@ -6,6 +6,7 @@ import {
   Subtitle,
   HeaderIconButton,
 } from "../styled/StyledComponents";
+
 import AddCircleOutlineRoundedIcon from '@material-ui/icons/AddCircleOutlineRounded';
 import StorefrontRoundedIcon from "@material-ui/icons/StorefrontRounded";
 import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded';

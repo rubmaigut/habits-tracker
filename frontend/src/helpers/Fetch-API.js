@@ -321,7 +321,7 @@ export const IsHabitDone = async ({ accessToken, id, count, goal, isDone }) => {
     body: JSON.stringify({
       countDone: count,
       goalDone: goal,
-      isDone,
+      isDone: isDone,
     }),
   })
     .then((response) => {

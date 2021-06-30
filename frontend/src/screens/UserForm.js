@@ -60,8 +60,8 @@ const UserForm = () => {
   return (
     <MainWrapper>
       <BorderStyle></BorderStyle>
-      <Title>21|90</Title>
-      <Subtitle>Habits Maker</Subtitle>
+      <Title>21 / 90</Title>
+      <Title>Habits Maker</Title>
       <FormWrapper>
         <GoogleButton
           style={{ backgroundColor: "#fff", color: "#737373" }}

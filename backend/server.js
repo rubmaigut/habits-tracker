@@ -259,7 +259,6 @@ app.delete("/habit/delete/:id", isLoggedIn, async (req,res)=>{
 
   const deleteHabit = await Habit.deleteOne({_id: id})
   const deleteAllRecord = await HabitDone.deleteMany({habitId : { $in:[objectId]}})
-  console.log(deleteAllRecord)
   
   if (deleteAllRecord && deleteHabit) {
     return res.json("Habit deleted")
@@ -300,23 +299,22 @@ app.post("/done/update/:id", isLoggedIn, async (req, res) => {
             res.json(subscriber);
           })
           .catch((error) => {
-            console.log(`Error updating subscriber by ID: ${error.message}`);
-            res.status(400).json(error);
+            res.status(400).json(`Error updating subscriber by ID: ${error.message}`);
           });
       } else {
         await new HabitDone({
           countDone,
           goalDone: selectGoal.symbol,
           habitId: habitSelected._id,
-          userId: user._id
+          userId: user._id,
+          isDone
         })
           .save()
           .then((subscriber) => {
             res.json(subscriber);
           })
           .catch((error) => {
-            console.log(`Error updating subscriber by ID: ${error.message}`);
-            res.status(400).json(error);
+            res.status(400).json(`Error updating subscriber by ID: ${error.message}`);
           });
       }
     } else {
@@ -325,15 +323,15 @@ app.post("/done/update/:id", isLoggedIn, async (req, res) => {
           countDone,
           goalDone: selectGoal.symbol,
           habitId: habitSelected._id,
-          userId: user._id
+          userId: user._id,
+          isDone
         })
           .save()
           .then((subscriber) => {
             res.json(subscriber);
           })
           .catch((error) => {
-            console.log(`Error updating subscriber by ID: ${error.message}`);
-            res.status(400).json(error);
+            res.status(400).json(`Error updating subscriber by ID: ${error.message}`);
           });
       } else {
         res.status(400).json({ error: "error" });

@@ -10,12 +10,12 @@ body {
   margin: 0;
   padding: 0;
   display: flow-root;
-  background: linear-gradient(45deg, #fe6b8b2e 30%, #ff8e5314 90%);
   font-family: sans-serif;
   font-size: 15px;
   color: #737373;
   justify-content: center;
   display: flex;
+  background-color: black;
 }
 
 #root {
@@ -24,6 +24,10 @@ body {
   height: 100%;
   position: relative;
   width: 100%;
+  overflow: auto;
+  background-color: white;
+  background: linear-gradient(45deg, #fe6b8b2e 30%, #ff8e5314 90%);
+
 }
 
 code {

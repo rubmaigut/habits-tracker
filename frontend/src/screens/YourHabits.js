@@ -52,7 +52,7 @@ const YourHabits = () => {
           ? habistList.map((habit) => (
               <SwipeableListItem  key={habit._id}
                 swipeLeft={{
-                  content: <div style={{width:"95%", height:"100px%", backgroundColor:"red"}}> Delete</div>,
+                  content: <div style={{width:"95%", height:"50px", backgroundColor:"red"}}> Delete</div>,
                   action: () => deleteHabit(habit._id)
                 }}
                 onSwipeProgress={(progress) =>

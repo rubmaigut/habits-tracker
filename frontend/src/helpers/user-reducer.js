@@ -4,7 +4,7 @@ export const user = createSlice({
   name: "user",
   initialState: {
     accessToken: null,
-    username: null,
+    username: null, 
     errors: null,
     isAuthenticated:false
   },

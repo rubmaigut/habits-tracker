@@ -52,6 +52,7 @@ const Daily = ({ label }) => {
     <MainWrapper>
       {habitsByFrequency.length
         ? habitsByFrequency.map((habit, index) => {
+          console.log()
             const habitProgress = progressDone?.find(
               (habitDone) => habitDone.habitId === habit._id
             );
@@ -76,6 +77,7 @@ const Daily = ({ label }) => {
                     <AddHabitValue
                       id={habit._id}
                       habitGoal={habit.goal}
+                      habitCount={habit.count}
                       habitProgress={habitProgress?.countDone}
                       refresh={refresh}
                       closeOnSave={() => handleChangeToggle(index)}

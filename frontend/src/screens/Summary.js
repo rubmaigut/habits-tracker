@@ -16,8 +16,6 @@ import {
 
 import rate from "../assets/report.png";
 import note from "../assets/note.png";
-import okay from "../assets/okay.png";
-import calendar from "../assets/calendar.png";
 
 import {
   fetchHabitByDay,
@@ -76,9 +74,12 @@ const Summary = () => {
     allHabitDoned();
     getYourHabits();
     allHabitDonedbyMonth();
+    console.log("fetching")
   }, [startDate]);
 
   useEffect(() => {
+    console.log("setting values", habitByDate)
+
     setHabistDone(habitByDate?.filter((item) => item.isDone).length);
     setOverRate(
       Math.trunc(
@@ -86,7 +87,7 @@ const Summary = () => {
           habistList.length
       )
     );
-  }, [habistList, habistTrackList]);
+  }, [habistList, habistTrackList, habitByDate]);
 
   return (
     <MainWrapper>
@@ -94,9 +95,10 @@ const Summary = () => {
       <HabitInnerWrapper
         style={{
           width: "100%",
-          overflow: "scroll",
+          overflow: "auto",
           display: "flex",
           justifyContent: "center",
+          margin: "5px 0"
         }}
       >
         {habistList.map((habit) => {
@@ -154,20 +156,6 @@ const Summary = () => {
             style={{ marginBottom: "0px" }}
           >{`${habitsDone} / ${habistList.length}`}</Title>
           <p style={{ margin: "0px" }}>Habit doned</p>
-        </HabitInnerWrapper>
-      </InnerWrapper>
-
-      <InnerWrapper>
-        <HabitInnerWrapper style={{ width: "47%", flexDirection: "column" }}>
-          <GoogleIcon src={calendar} />
-          <Title style={{ marginBottom: "0px" }}>{overallRate} %</Title>
-          <p style={{ margin: "0px" }}>Done in Month</p>
-        </HabitInnerWrapper>
-
-        <HabitInnerWrapper style={{ width: "47%", flexDirection: "column" }}>
-          <GoogleIcon src={okay} />
-          <Title style={{ marginBottom: "0px" }}>{overallRate} %</Title>
-          <p style={{ margin: "0px" }}>Perfect Days</p>
         </HabitInnerWrapper>
       </InnerWrapper>
     </MainWrapper>

@@ -46,8 +46,7 @@ const Home = () => {
         <Tab icon={<ViewListRoundedIcon fontSize="medium" />} aria-label="phone" {...a11yProps(0)} />
         <Tab icon={<EventAvailableRoundedIcon fontSize="medium" />} aria-label="favorite" {...a11yProps(1)} />
         <Tab icon={<DonutLargeRoundedIcon  fontSize="medium"/>} aria-label="person" {...a11yProps(2)} />
-        <Tab icon={<SettingsRoundedIcon fontSize="medium"/>} aria-label="person" {...a11yProps(3)} />
-      </Tabs>
+        </Tabs>
 
       <TabPanel value={value} index={0}>
         <YourHabits />
@@ -57,9 +56,6 @@ const Home = () => {
       </TabPanel>
       <TabPanel value={value} index={2}>
        <Summary/>
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        User
       </TabPanel>
     </HomeWrapper>
   );

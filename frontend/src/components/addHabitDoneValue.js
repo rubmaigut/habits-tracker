@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { MainWrapper } from "../styled/StyledComponents";
 import TextField from "@material-ui/core/TextField";
 
-import { fetchGoal, IsHabitDone } from "../helpers/Fetch-API";
+import { IsHabitDone } from "../helpers/Fetch-API";
 
 const AddHabitValue = ({
   id,
@@ -11,6 +11,7 @@ const AddHabitValue = ({
   refresh,
   habitProgress,
   closeOnSave,
+  habitCount
 }) => {
   const accessToken = useSelector((store) => store.user.accessToken);
   const [count, setCount] = useState("");
@@ -21,15 +22,16 @@ const AddHabitValue = ({
       accessToken,
       count,
       goal: habitGoal,
-      isDone: parseInt(count) >= habitProgress,
+      isDone: parseInt(count) >= habitCount,
     });
 
     console.log({
-      id,
-      accessToken,
-      count,
-      goal: habitGoal,
-      isDone: parseInt(count) >= habitProgress,
+     
+      isDone: parseInt(count) 
+    })
+    console.log({
+     
+      isDone: habitProgress,
     })
 
     if (habitDoneSaved) {

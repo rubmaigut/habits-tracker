@@ -2,8 +2,11 @@ import React, { useEffect } from "react";
 
 import {
     MainWrapper,
-    Subtitle
+    Title,
+    SucessImage
   } from "../styled/StyledComponents";
+
+  import key from "../assets/key.png"
 
 const LoginSucess = () => {
     useEffect(()=>{
@@ -15,7 +18,8 @@ const LoginSucess = () => {
     
     return(
         <MainWrapper>   
-            <Subtitle> Thanks for Login in </Subtitle>
+            <SucessImage src={key}/>
+            <Title> Thanks for Login in </Title>
         </MainWrapper>
     )
 

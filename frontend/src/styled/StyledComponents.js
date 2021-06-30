@@ -35,7 +35,7 @@ export const IconWrapper = styled.div`
 export const HeaderWrapper = styled.div`
   width: 100%;
   height: 60px;
-  margin: 10px;
+  margin-top: 10px;
   display: flex;
 `;
 export const Wrapper = styled.div`
@@ -145,6 +145,11 @@ export const GoogleIcon = styled.img`
 export const IconSize = styled.img`
   width: 40px;
   height: 40px;
+  margin: 8px;
+`;
+export const SucessImage = styled.img`
+  width: 180px;
+  height: 180px;
   margin: 8px;
 `;
 
