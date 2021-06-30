@@ -60,7 +60,8 @@ const encrypt = (text) => {
 };
 
 // Add middlewares to enable cors and json body parsing
-app.use(cors({ origin: `${process.env.FE_URL}`, credentials: true }));
+//app.use(cors({ origin: `${process.env.FE_URL}`, credentials: true }));
+app.use(cors({origin: "*", credentials: true}));
 app.use(express.json());
 app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
