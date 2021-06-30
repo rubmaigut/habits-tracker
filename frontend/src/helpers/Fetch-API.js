@@ -1,5 +1,5 @@
 export const createUser = async (email, username, password) => {
-  let API_URL_NEW_USER = "http://localhost:8080/user/new/signup";
+  let API_URL_NEW_USER = " https://habit-tracker-mr.herokuapp.com/user/new/signup";
   //" https://habit-tracker-mr.herokuapp.com/user/new/signup"
 
   let userInfo;
@@ -35,7 +35,7 @@ export const createUser = async (email, username, password) => {
 };
 
 export const iconsData = async () => {
-  let ICON_URL = "http://localhost:8080/icons";
+  let ICON_URL = " https://habit-tracker-mr.herokuapp.com/icons";
 
   return fetch(ICON_URL)
     .then((response) => {
@@ -46,7 +46,7 @@ export const iconsData = async () => {
 };
 
 export const formDataSelected = async (tableName) => {
-  let FORM_URL = `http://localhost:8080/setup/${tableName}`;
+  let FORM_URL = ` https://habit-tracker-mr.herokuapp.com/setup/${tableName}`;
 
   return fetch(FORM_URL)
     .then((response) => {
@@ -69,7 +69,7 @@ export const createCustomHabit = async ({
   startedDate,
   endingDate,
 }) => {
-  let CUSTOM_HABIT = "http://localhost:8080/habits";
+  let CUSTOM_HABIT = " https://habit-tracker-mr.herokuapp.com/habits";
 
   let habitCreated;
   let habitError;
@@ -131,7 +131,7 @@ export const updateYourHabit = async ({
   endingDate,
   id,
 }) => {
-  let UPDATE_HABIT = `http://localhost:8080/habit/update/${id}`;
+  let UPDATE_HABIT = ` https://habit-tracker-mr.herokuapp.com/habit/update/${id}`;
 
   let updateHabit;
   let habitError;
@@ -181,7 +181,7 @@ export const updateYourHabit = async ({
 };
 
 export const defaultHabits = async (accessToken) => {
-  let DEFAULT_HABIT_URL = "http://localhost:8080/default-habits";
+  let DEFAULT_HABIT_URL = " https://habit-tracker-mr.herokuapp.com/default-habits";
 
   return fetch(DEFAULT_HABIT_URL, {
     method: "GET",
@@ -198,7 +198,7 @@ export const defaultHabits = async (accessToken) => {
 };
 
 export const findDefaultHabits = async ({ accessToken, id }) => {
-  let FIND_DEFAULT_HABIT_URL = `http://localhost:8080/default-habits/${id}`;
+  let FIND_DEFAULT_HABIT_URL = ` https://habit-tracker-mr.herokuapp.com/default-habits/${id}`;
   return fetch(FIND_DEFAULT_HABIT_URL, {
     method: "GET",
     headers: {
@@ -216,7 +216,7 @@ export const findDefaultHabits = async ({ accessToken, id }) => {
 };
 
 export const findHabit = async ({ accessToken, id }) => {
-  let FIND_HABIT_URL = `http://localhost:8080/habit/${id}`;
+  let FIND_HABIT_URL = ` https://habit-tracker-mr.herokuapp.com/habit/${id}`;
   return fetch(FIND_HABIT_URL, {
     method: "GET",
     headers: {
@@ -234,7 +234,7 @@ export const findHabit = async ({ accessToken, id }) => {
 };
 
 export const getUserHabits = async ({ accessToken }) => {
-  let FIND_USER_HABIT_URL = `http://localhost:8080/habits/user`;
+  let FIND_USER_HABIT_URL = ` https://habit-tracker-mr.herokuapp.com/habits/user`;
   return fetch(FIND_USER_HABIT_URL, {
     method: "GET",
     headers: {
@@ -252,7 +252,7 @@ export const getUserHabits = async ({ accessToken }) => {
 };
 
 export const fetchGoal = async () => {
-  let GOAL_URL = "http://localhost:8080/setup/goal";
+  let GOAL_URL = " https://habit-tracker-mr.herokuapp.com/setup/goal";
 
   return fetch(GOAL_URL)
     .then((response) => {
@@ -263,7 +263,7 @@ export const fetchGoal = async () => {
 };
 
 export const fetchHabitByDay = async ({ accessToken, startDate }) => {
-  let HABIT_DONED = "http://localhost:8080/done-by-date";
+  let HABIT_DONED = " https://habit-tracker-mr.herokuapp.com/done-by-date";
 
   return fetch(HABIT_DONED, {
     method: "POST",
@@ -285,7 +285,7 @@ export const fetchHabitByDay = async ({ accessToken, startDate }) => {
 };
 
 export const fetchHabitByMonth = async ({ accessToken, startDate }) => {
-  let HABIT_DONED = "http://localhost:8080/done-by-month";
+  let HABIT_DONED = " https://habit-tracker-mr.herokuapp.com/done-by-month";
 
   return fetch(HABIT_DONED, {
     method: "POST",
@@ -307,7 +307,7 @@ export const fetchHabitByMonth = async ({ accessToken, startDate }) => {
 };
 
 export const IsHabitDone = async ({ accessToken, id, count, goal, isDone }) => {
-  let DONE_HABIT = `http://localhost:8080/done/update/${id}`;
+  let DONE_HABIT = ` https://habit-tracker-mr.herokuapp.com/done/update/${id}`;
 
   let habitDoneSaved;
   let errorSavedHabit;
@@ -350,7 +350,7 @@ export const IsHabitDone = async ({ accessToken, id, count, goal, isDone }) => {
 };
 
 export const deleteHabits = async ({ accessToken, id }) => {
-  let DELETE_HABIT = `http://localhost:8080/habit/delete/${id}`;
+  let DELETE_HABIT = ` https://habit-tracker-mr.herokuapp.com/habit/delete/${id}`;
 
   return fetch(DELETE_HABIT, {
     method: "DELETE",
