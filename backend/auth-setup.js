@@ -16,6 +16,7 @@ passport.use(
       callbackURL:`${process.env.BASE_URL}/auth/google/callback`,
         //"https://habit-tracker-mr.herokuapp.com/auth/google/callback",
       passReqToCallback: true,
+      proxy: true
     },
     async (request, accessToken, refreshToken, profile, done) => {
       User.findOne({
