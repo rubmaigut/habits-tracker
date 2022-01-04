@@ -6,6 +6,9 @@ export const createUser = async (email, username, password) => {
   let error400;
 
   await fetch(API_URL_NEW_USER, {
+    mode: 'cors',
+    credentials: 'include'
+  }, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -359,8 +362,8 @@ export const deleteHabits = async ({ accessToken, id }) => {
       Authorization: accessToken,
     },
   }).then((response) => {
-      return response.json();
-    })
+    return response.json();
+  })
     .then((data) => {
       return data;
     })
